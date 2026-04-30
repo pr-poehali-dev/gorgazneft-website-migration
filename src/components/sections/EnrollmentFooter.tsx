@@ -155,7 +155,7 @@ export default function EnrollmentFooter() {
               <img
                 src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/903e3ea5-717d-4657-8d0e-ac0bb45a114b.png"
                 alt="ГорГазНефть"
-                className="h-8 w-8 object-contain brightness-0 invert"
+                className="h-10 w-10 object-contain"
               />
               <span className="font-golos font-black text-white text-sm">АНО ДПО «Учебный центр ГорГазНефть»</span>
             </div>
