@@ -1,6 +1,7 @@
 export const NAV_LINKS = [
   { label: "Главная", href: "#hero" },
   { label: "О центре", href: "#about" },
+  { label: "Профессии", href: "#professions" },
   { label: "Курсы", href: "#courses" },
   { label: "Программы", href: "#programs" },
   { label: "Преподаватели", href: "#teachers" },
