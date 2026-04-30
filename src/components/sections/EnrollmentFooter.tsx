@@ -110,10 +110,12 @@ export default function EnrollmentFooter() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: "hsl(42,90%,52%)" }}>
-                <Icon name="GraduationCap" size={14} style={{ color: "hsl(218,72%,10%)" }} />
-              </div>
-              <span className="font-golos font-bold text-white text-sm">ОЦ «Профессионал»</span>
+              <img
+                src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/885e4474-44c8-4283-b5c3-89e9d79abafa.jpg"
+                alt="ГорГазНефть"
+                className="h-8 w-8 object-contain brightness-0 invert"
+              />
+              <span className="font-golos font-black text-white text-sm">ГорГазНефть</span>
             </div>
             <div className="flex flex-wrap justify-center gap-6">
               {[

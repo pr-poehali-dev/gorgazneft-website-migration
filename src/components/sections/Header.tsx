@@ -8,13 +8,15 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded flex items-center justify-center" style={{ background: "hsl(218,72%,18%)" }}>
-            <Icon name="GraduationCap" size={18} className="text-white" />
-          </div>
+        <div className="flex items-center gap-2">
+          <img
+            src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/885e4474-44c8-4283-b5c3-89e9d79abafa.jpg"
+            alt="ГорГазНефть"
+            className="h-10 w-10 object-contain"
+          />
           <div>
-            <div className="font-golos font-bold text-sm leading-tight" style={{ color: "hsl(218,72%,18%)" }}>ОБРАЗОВАТЕЛЬНЫЙ ЦЕНТР</div>
-            <div className="text-xs text-muted-foreground leading-tight">«ПРОФЕССИОНАЛ»</div>
+            <div className="font-golos font-bold text-sm leading-tight" style={{ color: "hsl(218,72%,18%)" }}>АВТОНОМНАЯ НКО ДПО</div>
+            <div className="font-golos font-black text-base leading-tight" style={{ color: "hsl(42,80%,42%)" }}>ГорГазНефть</div>
           </div>
         </div>
 
