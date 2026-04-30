@@ -17,7 +17,7 @@ export default function MainSections() {
           <div className="animate-slide-up">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6 border border-white/20 text-white/70">
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "hsl(42,90%,52%)" }}></span>
-              АНО ДПО «Учебный центр ГорГазНефть» — лицензия Рособрнадзора
+              Лицензия № Л035-01198-02/03314706 · Минпросвещения РБ
             </div>
             <h1 className="font-golos text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
               Обучение специалистов{" "}
@@ -89,7 +89,7 @@ export default function MainSections() {
               </p>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { icon: "ShieldCheck", title: "Лицензия Рособрнадзора", desc: "Документы признаются Ростехнадзором" },
+                  { icon: "ShieldCheck", title: "Лицензия Минпросвещения РБ", desc: "№ Л035-01198-02/03314706, действует" },
                   { icon: "Wifi", title: "Дистанционный формат", desc: "Обучение из любой точки России" },
                   { icon: "HardHat", title: "Отраслевые эксперты", desc: "Преподаватели — практики из ТЭК" },
                   { icon: "Headphones", title: "Поддержка куратора", desc: "Помощь при прохождении аттестации" },
