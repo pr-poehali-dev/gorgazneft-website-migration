@@ -1,7 +1,10 @@
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { COURSES, PROGRAMS, TEACHERS, SCHEDULE, DOCUMENTS, REVIEWS } from "./data";
 
 export default function MainSections() {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
   return (
     <>
       {/* HERO */}
@@ -270,14 +273,25 @@ export default function MainSections() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {DOCUMENTS.map((d) => (
-              <div key={d.name} className="rounded-xl border border-white/15 p-6 hover:border-white/30 transition-colors cursor-pointer group" style={{ background: "hsl(218,65%,24%)" }}>
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: "hsl(42,90%,52%)" }}>
-                  <Icon name={d.icon} size={20} fallback="FileText" style={{ color: "hsl(218,72%,10%)" }} />
-                </div>
+              <div
+                key={d.name}
+                className="rounded-xl border border-white/15 p-6 hover:border-white/30 transition-colors cursor-pointer group"
+                style={{ background: "hsl(218,65%,24%)" }}
+                onClick={() => "img" in d && d.img ? setLightbox(d.img as string) : undefined}
+              >
+                {"img" in d && d.img ? (
+                  <div className="w-full h-16 rounded-lg overflow-hidden mb-4 border border-white/10">
+                    <img src={d.img as string} alt={d.name} className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: "hsl(42,90%,52%)" }}>
+                    <Icon name={d.icon} size={20} fallback="FileText" style={{ color: "hsl(218,72%,10%)" }} />
+                  </div>
+                )}
                 <div className="font-golos font-bold text-white text-sm leading-tight mb-2">{d.name}</div>
                 <div className="text-white/40 text-xs">{d.num}</div>
                 <div className="mt-3 flex items-center gap-1 text-xs font-medium group-hover:gap-2 transition-all" style={{ color: "hsl(42,90%,52%)" }}>
-                  Посмотреть <Icon name="ArrowRight" size={12} />
+                  {"img" in d && d.img ? "Открыть" : "Посмотреть"} <Icon name="ArrowRight" size={12} />
                 </div>
               </div>
             ))}
@@ -316,6 +330,25 @@ export default function MainSections() {
           </div>
         </div>
       </section>
+
+      {/* LIGHTBOX */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(4px)" }}
+          onClick={() => setLightbox(null)}
+        >
+          <div className="relative max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setLightbox(null)}
+              className="absolute -top-10 right-0 flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors"
+            >
+              <Icon name="X" size={16} /> Закрыть
+            </button>
+            <img src={lightbox} alt="Документ" className="w-full rounded-xl shadow-2xl" />
+          </div>
+        </div>
+      )}
     </>
   );
 }
