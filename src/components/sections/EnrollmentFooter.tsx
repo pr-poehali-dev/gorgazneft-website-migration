@@ -87,17 +87,21 @@ export default function EnrollmentFooter() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: "MapPin", title: "Адрес", value: "г. Москва, ул. Профессиональная, д. 12, офис 301", sub: "Пн–Пт, 9:00–18:00" },
+              { icon: "MapPin", title: "Адрес", value: "г. Москва, ул. Профессиональная, д. 12, офис 301", sub: "Пн–Пт, 09:00–18:00" },
               { icon: "Phone", title: "Телефон", value: "+7 (495) 000-00-00", sub: "Звонки и WhatsApp" },
-              { icon: "Mail", title: "Email", value: "info@center-pro.ru", sub: "Ответим в течение дня" },
-              { icon: "MessageCircle", title: "Мессенджеры", value: "Telegram, WhatsApp", sub: "@center_professional" },
+              { icon: "Mail", title: "Email", value: "gorgazneft@mail.ru", sub: "Ответим в течение дня", href: "mailto:gorgazneft@mail.ru" },
+              { icon: "Users", title: "ВКонтакте", value: "vk.com/gazneft2013", sub: "Новости и акции", href: "https://vk.com/gazneft2013" },
             ].map((c) => (
               <div key={c.title} className="border border-border rounded-xl p-6 text-center hover:shadow-md transition-shadow">
                 <div className="w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: "hsl(218,72%,18%)" }}>
                   <Icon name={c.icon} size={20} className="text-white" fallback="Phone" />
                 </div>
                 <div className="font-golos font-bold text-sm mb-1" style={{ color: "hsl(218,72%,18%)" }}>{c.title}</div>
-                <div className="text-sm font-medium mb-1">{c.value}</div>
+                {"href" in c ? (
+                  <a href={c.href} className="text-sm font-medium mb-1 block hover:underline" style={{ color: "hsl(218,72%,28%)" }}>{c.value}</a>
+                ) : (
+                  <div className="text-sm font-medium mb-1">{c.value}</div>
+                )}
                 <div className="text-xs text-muted-foreground">{c.sub}</div>
               </div>
             ))}
@@ -126,6 +130,14 @@ export default function EnrollmentFooter() {
               ].map((l) => (
                 <a key={l.label} href={l.href} className="text-white/40 hover:text-white/70 text-xs transition-colors">{l.label}</a>
               ))}
+              <a href="https://vk.com/gazneft2013" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white/70 text-xs transition-colors flex items-center gap-1">
+                <Icon name="Users" size={12} />
+                ВКонтакте
+              </a>
+              <a href="mailto:gorgazneft@mail.ru" className="text-white/40 hover:text-white/70 text-xs transition-colors flex items-center gap-1">
+                <Icon name="Mail" size={12} />
+                gorgazneft@mail.ru
+              </a>
             </div>
             <div className="text-white/30 text-xs">© 2026 АНО ДПО «Учебный центр ГорГазНефть»</div>
           </div>
