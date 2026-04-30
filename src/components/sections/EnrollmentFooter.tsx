@@ -2,13 +2,36 @@ import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { COURSES } from "./data";
 
+const API_URL = "https://functions.poehali.dev/c021f067-e6c8-430a-9993-c89557704a45";
+
 export default function EnrollmentFooter() {
   const [form, setForm] = useState({ name: "", phone: "", email: "", course: "", comment: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        setForm({ name: "", phone: "", email: "", course: "", comment: "" });
+      } else {
+        const data = await res.json();
+        setError(data.error || "Ошибка отправки. Попробуйте ещё раз.");
+      }
+    } catch {
+      setError("Не удалось отправить заявку. Проверьте интернет-соединение.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,9 +87,24 @@ export default function EnrollmentFooter() {
                   <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide text-muted-foreground">Комментарий</label>
                   <textarea rows={3} value={form.comment} onChange={(e) => setForm({ ...form, comment: e.target.value })} placeholder="Уточнения по форме обучения, дате или другие вопросы..." className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-700 transition-shadow resize-none" />
                 </div>
-                <button type="submit" className="w-full py-4 rounded-lg font-golos font-bold text-base transition-opacity hover:opacity-90 flex items-center justify-center gap-2 text-white" style={{ background: "hsl(218,72%,28%)" }}>
-                  <Icon name="Send" size={18} />
-                  Отправить заявку
+                {error && (
+                  <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex items-center gap-2">
+                    <Icon name="AlertCircle" size={16} />
+                    {error}
+                  </div>
+                )}
+                <button type="submit" disabled={loading} className="w-full py-4 rounded-lg font-golos font-bold text-base transition-opacity hover:opacity-90 flex items-center justify-center gap-2 text-white disabled:opacity-60" style={{ background: "hsl(218,72%,28%)" }}>
+                  {loading ? (
+                    <>
+                      <Icon name="Loader" size={18} className="animate-spin" />
+                      Отправляем...
+                    </>
+                  ) : (
+                    <>
+                      <Icon name="Send" size={18} />
+                      Отправить заявку
+                    </>
+                  )}
                 </button>
                 <p className="text-xs text-muted-foreground text-center">
                   Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных
