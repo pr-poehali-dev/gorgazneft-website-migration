@@ -141,6 +141,10 @@ export default function EnrollmentFooter() {
             </div>
             <div className="text-white/30 text-xs">© 2026 АНО ДПО «Учебный центр ГорГазНефть»</div>
           </div>
+          <div className="mt-6 pt-6 border-t border-white/10 text-center text-white/25 text-xs leading-relaxed">
+            ОГРН 1250200012281 &nbsp;·&nbsp; ИНН 0268104892 &nbsp;·&nbsp; КПП 026801001 &nbsp;·&nbsp;
+            453839, Республика Башкортостан, г. Сибай, ул. Куйбышева, д. 20, офис 32
+          </div>
         </div>
       </footer>
     </>

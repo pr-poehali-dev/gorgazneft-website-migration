@@ -121,7 +121,7 @@ export const SCHEDULE = [
 export const DOCUMENTS = [
   { name: "Лицензия на образовательную деятельность", num: "№ ОД-1234 от 15.03.2019", icon: "FileCheck" },
   { name: "Санитарно-эпидемиологическое заключение", num: "№ 02.26.26.000.М.000094.10.25 от 01.10.2025", icon: "BadgeCheck", img: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/65d546df-739c-4d64-8840-97c0731e5576.jpg" },
-  { name: "Устав АНО ДПО «Учебный центр ГорГазНефть»", num: "Редакция 2023 года", icon: "Scroll" },
+  { name: "Лист записи ЕГРЮЛ (ОГРН)", num: "ОГРН 1250200012281 от 15.04.2025", icon: "Scroll", img: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/8ff4f624-8795-4d33-bf79-47259dd29966.jpg" },
   { name: "Положение об аттестации и обучении", num: "Утверждено приказом № 12/2024", icon: "ClipboardList" },
 ];
 
