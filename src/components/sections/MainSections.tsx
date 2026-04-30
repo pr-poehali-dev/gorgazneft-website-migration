@@ -14,7 +14,7 @@ export default function MainSections() {
           <div className="animate-slide-up">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6 border border-white/20 text-white/70">
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "hsl(42,90%,52%)" }}></span>
-              АНО ДПО «ГорГазНефть» — лицензия Рособрнадзора
+              АНО ДПО «Учебный центр ГорГазНефть» — лицензия Рособрнадзора
             </div>
             <h1 className="font-golos text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
               Обучение специалистов{" "}
@@ -76,10 +76,10 @@ export default function MainSections() {
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div>
               <div className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: "hsl(218,72%,28%)" }}>О центре</div>
-              <h2 className="font-golos text-3xl sm:text-4xl font-black mb-2" style={{ color: "hsl(218,72%,18%)" }}>АНО ДПО «ГорГазНефть»</h2>
+              <h2 className="font-golos text-3xl sm:text-4xl font-black mb-2" style={{ color: "hsl(218,72%,18%)" }}>АНО ДПО «Учебный центр ГорГазНефть»</h2>
               <div className="section-divider mb-6" />
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Автономная некоммерческая организация дополнительного профессионального образования «ГорГазНефть» работает с 2018 года. За это время более 3 500 специалистов нефтяной, газовой и горнодобывающей отрасли прошли обучение и успешно прошли аттестацию в Ростехнадзоре.
+                Автономная некоммерческая организация дополнительного профессионального образования «Учебный центр ГорГазНефть» работает с 2018 года. За это время более 3 500 специалистов нефтяной, газовой и горнодобывающей отрасли прошли обучение и успешно прошли аттестацию в Ростехнадзоре.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 Специализируемся на подготовке, переподготовке и повышении квалификации по требованиям промышленной безопасности. Работаем с крупными предприятиями ТЭК и горнодобывающего комплекса по всей России.

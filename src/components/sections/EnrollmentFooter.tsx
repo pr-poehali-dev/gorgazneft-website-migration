@@ -115,7 +115,7 @@ export default function EnrollmentFooter() {
                 alt="ГорГазНефть"
                 className="h-8 w-8 object-contain brightness-0 invert"
               />
-              <span className="font-golos font-black text-white text-sm">АНО ДПО «ГорГазНефть»</span>
+              <span className="font-golos font-black text-white text-sm">АНО ДПО «Учебный центр ГорГазНефть»</span>
             </div>
             <div className="flex flex-wrap justify-center gap-6">
               {[
@@ -127,7 +127,7 @@ export default function EnrollmentFooter() {
                 <a key={l.label} href={l.href} className="text-white/40 hover:text-white/70 text-xs transition-colors">{l.label}</a>
               ))}
             </div>
-            <div className="text-white/30 text-xs">© 2026 АНО ДПО «ГорГазНефть»</div>
+            <div className="text-white/30 text-xs">© 2026 АНО ДПО «Учебный центр ГорГазНефть»</div>
           </div>
         </div>
       </footer>

@@ -15,8 +15,8 @@ export default function Header() {
             className="h-10 w-10 object-contain"
           />
           <div>
-            <div className="font-golos font-bold text-sm leading-tight" style={{ color: "hsl(218,72%,18%)" }}>АВТОНОМНАЯ НКО ДПО</div>
-            <div className="font-golos font-black text-base leading-tight" style={{ color: "hsl(42,80%,42%)" }}>ГорГазНефть</div>
+            <div className="font-golos font-bold text-xs leading-tight" style={{ color: "hsl(218,72%,18%)" }}>АНО ДПО</div>
+            <div className="font-golos font-black text-sm leading-tight" style={{ color: "hsl(42,80%,42%)" }}>УЦ ГорГазНефть</div>
           </div>
         </div>
 
