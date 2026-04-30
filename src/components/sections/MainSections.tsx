@@ -14,15 +14,15 @@ export default function MainSections() {
           <div className="animate-slide-up">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6 border border-white/20 text-white/70">
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "hsl(42,90%,52%)" }}></span>
-              Лицензированный образовательный центр
+              АНО ДПО «ГорГазНефть» — лицензия Рособрнадзора
             </div>
             <h1 className="font-golos text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
-              Профессиональное{" "}
-              <span style={{ color: "hsl(42,90%,52%)" }}>образование</span>{" "}
-              для специалистов
+              Обучение специалистов{" "}
+              <span style={{ color: "hsl(42,90%,52%)" }}>нефтяной, газовой</span>{" "}
+              и горной отрасли
             </h1>
             <p className="text-white/70 text-lg leading-relaxed mb-8 max-w-lg">
-              Повышение квалификации и профессиональная переподготовка. Дипломы государственного образца. Онлайн и очный формат.
+              Повышение квалификации и профессиональная переподготовка по стандартам Ростехнадзора. Дипломы государственного образца. Очно и онлайн.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#enrollment" className="inline-flex items-center gap-2 px-6 py-3.5 rounded font-semibold text-sm transition-opacity hover:opacity-90" style={{ background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }}>
@@ -37,10 +37,10 @@ export default function MainSections() {
 
             <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/15">
               {[
-                { num: "2 000+", label: "Выпускников" },
-                { num: "20+", label: "Программ" },
-                { num: "7 лет", label: "На рынке" },
-                { num: "98%", label: "Трудоустройство" },
+                { num: "3 500+", label: "Выпускников" },
+                { num: "23+", label: "Программ" },
+                { num: "8 лет", label: "На рынке" },
+                { num: "100%", label: "Сдают аттестацию" },
               ].map((s) => (
                 <div key={s.label}>
                   <div className="font-golos text-2xl font-black" style={{ color: "hsl(42,90%,52%)" }}>{s.num}</div>
@@ -76,20 +76,20 @@ export default function MainSections() {
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div>
               <div className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: "hsl(218,72%,28%)" }}>О центре</div>
-              <h2 className="font-golos text-3xl sm:text-4xl font-black mb-2" style={{ color: "hsl(218,72%,18%)" }}>Образовательный центр «Профессионал»</h2>
+              <h2 className="font-golos text-3xl sm:text-4xl font-black mb-2" style={{ color: "hsl(218,72%,18%)" }}>АНО ДПО «ГорГазНефть»</h2>
               <div className="section-divider mb-6" />
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Мы — лицензированный образовательный центр дополнительного профессионального образования, работающий с 2017 года. За это время более 2 000 специалистов прошли обучение и получили документы государственного образца.
+                Автономная некоммерческая организация дополнительного профессионального образования «ГорГазНефть» работает с 2018 года. За это время более 3 500 специалистов нефтяной, газовой и горнодобывающей отрасли прошли обучение и успешно прошли аттестацию в Ростехнадзоре.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                Центр специализируется на программах повышения квалификации и профессиональной переподготовки в области управления, экономики, юриспруденции и охраны труда. Очный и дистанционный формат.
+                Специализируемся на подготовке, переподготовке и повышении квалификации по требованиям промышленной безопасности. Работаем с крупными предприятиями ТЭК и горнодобывающего комплекса по всей России.
               </p>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { icon: "ShieldCheck", title: "Государственная лицензия", desc: "Документы установленного образца" },
-                  { icon: "Wifi", title: "Дистанционный формат", desc: "Учитесь из любой точки России" },
-                  { icon: "Clock", title: "Гибкий график", desc: "Без отрыва от производства" },
-                  { icon: "Headphones", title: "Поддержка куратора", desc: "На всём пути обучения" },
+                  { icon: "ShieldCheck", title: "Лицензия Рособрнадзора", desc: "Документы признаются Ростехнадзором" },
+                  { icon: "Wifi", title: "Дистанционный формат", desc: "Обучение из любой точки России" },
+                  { icon: "HardHat", title: "Отраслевые эксперты", desc: "Преподаватели — практики из ТЭК" },
+                  { icon: "Headphones", title: "Поддержка куратора", desc: "Помощь при прохождении аттестации" },
                 ].map((f) => (
                   <div key={f.title} className="flex gap-3 p-4 rounded-lg bg-muted/40 border border-border">
                     <div className="mt-0.5 w-8 h-8 rounded flex items-center justify-center flex-shrink-0" style={{ background: "hsl(218,72%,18%)" }}>
@@ -106,9 +106,9 @@ export default function MainSections() {
 
             <div className="space-y-4">
               {[
-                { q: "Какие документы выдаются по завершении?", a: "Удостоверение о повышении квалификации или диплом о профессиональной переподготовке. Все документы внесены в государственный реестр." },
-                { q: "Можно ли учиться без отрыва от работы?", a: "Да. Большинство программ доступны в дистанционном формате с гибким расписанием. Вы получаете доступ к материалам 24/7." },
-                { q: "Есть ли рассрочка оплаты?", a: "Да, мы предлагаем рассрочку на 3 и 6 месяцев без переплат. Подробности уточняйте у менеджера при записи." },
+                { q: "Какие документы выдаются по завершении?", a: "Удостоверение о повышении квалификации или диплом о профессиональной переподготовке государственного образца, признаваемые Ростехнадзором при аттестации." },
+                { q: "Можно ли учиться без отрыва от производства?", a: "Да. Большинство программ доступны в дистанционном формате — доступ к материалам 24/7, сдача тестов онлайн. Очные форматы проводятся в выходные дни." },
+                { q: "Работаете ли вы с юридическими лицами?", a: "Да, мы заключаем договоры с организациями, выставляем счета, предоставляем все закрывающие документы. Корпоративным клиентам — скидки от 10%." },
                 { q: "Как долго длится обучение?", a: "Повышение квалификации — от 16 до 250 часов (1–8 недель). Профессиональная переподготовка — от 250 часов (2–6 месяцев)." },
               ].map((item, i) => (
                 <details key={i} className="group border border-border rounded-lg overflow-hidden">
