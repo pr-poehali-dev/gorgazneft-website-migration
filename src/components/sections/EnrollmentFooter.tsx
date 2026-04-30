@@ -111,7 +111,7 @@ export default function EnrollmentFooter() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <img
-                src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/885e4474-44c8-4283-b5c3-89e9d79abafa.jpg"
+                src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/903e3ea5-717d-4657-8d0e-ac0bb45a114b.png"
                 alt="ГорГазНефть"
                 className="h-8 w-8 object-contain brightness-0 invert"
               />
