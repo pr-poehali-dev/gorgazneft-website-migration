@@ -124,6 +124,7 @@ export const DOCUMENTS = [
   { name: "Лист записи ЕГРЮЛ (ОГРН)", num: "ОГРН 1250200012281 от 15.04.2025", icon: "Scroll", img: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/8ff4f624-8795-4d33-bf79-47259dd29966.jpg" },
   { name: "Свидетельство о постановке на учёт в ФНС", num: "ИНН 0268104892 / КПП 026801001", icon: "Building", img: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/514f2ab9-fca0-4062-afac-0847c28c70f4.jpg" },
   { name: "Свидетельство о государственной регистрации НКО", num: "Учётный № 0314052189 от 17.04.2025 · Минюст РФ", icon: "Award", img: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/dd97114c-b3c4-4837-a1c5-bc86c5fa3c94.jpg" },
+  { name: "Устав АНО ДПО «Учебный центр ГорГазНефть»", num: "Утверждён протоколом № 1 от 05.03.2025", icon: "Scroll", img: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/131ae462-92bd-42a7-b0fd-7038e8eb3f99.jpg" },
   { name: "Положение об аттестации и обучении", num: "Утверждено приказом № 12/2024", icon: "ClipboardList" },
 ];
 
