@@ -57,7 +57,7 @@ export default function InstallPrompt() {
           <img
             src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/0844bfcb-cc26-4814-8fcb-251231d0e9cd.png"
             alt="ГорГазНефть"
-            className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
+            className="w-12 h-12 rounded-xl object-contain flex-shrink-0 bg-white p-1"
           />
           <div className="flex-1 min-w-0">
             <div className="font-golos font-bold text-white text-sm mb-0.5">Установите приложение</div>
