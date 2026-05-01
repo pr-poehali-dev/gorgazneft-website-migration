@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
-import { COURSES, PROGRAMS, TEACHERS, SCHEDULE, DOCUMENTS, REVIEWS } from "./data";
+import { COURSES, PROGRAMS, SCHEDULE, DOCUMENTS, REVIEWS } from "./data";
 
 export default function MainSections() {
   const [lightbox, setLightbox] = useState<string | null>(null);
@@ -189,33 +189,6 @@ export default function MainSections() {
                       Записаться
                     </a>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TEACHERS */}
-      <section id="teachers" className="py-20" style={{ background: "hsl(214,32%,96%)" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-14">
-            <div className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: "hsl(218,72%,28%)" }}>Наставники</div>
-            <h2 className="font-golos text-3xl sm:text-4xl font-black mb-3" style={{ color: "hsl(218,72%,18%)" }}>Преподаватели</h2>
-            <div className="section-divider mx-auto" />
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TEACHERS.map((t) => (
-              <div key={t.name} className="bg-white rounded-xl border border-border p-6 text-center hover:shadow-md transition-shadow">
-                <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: "hsl(218,72%,18%)" }}>
-                  <Icon name="User" size={28} className="text-white" />
-                </div>
-                <div className="font-golos font-bold text-base mb-1 leading-tight" style={{ color: "hsl(218,72%,18%)" }}>{t.name}</div>
-                <div className="text-xs font-medium mb-1" style={{ color: "hsl(42,90%,42%)" }}>{t.title}</div>
-                <div className="text-xs text-muted-foreground mb-2">{t.subject}</div>
-                <div className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                  <Icon name="Star" size={11} className="text-yellow-500" />
-                  {t.exp}
                 </div>
               </div>
             ))}
