@@ -143,3 +143,72 @@
     color: hsl(var(--gold));
   }
 }
+
+/* Режим для слабовидящих */
+html.accessible {
+  font-size: 120%;
+}
+
+html.accessible body {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+html.accessible * {
+  font-family: Arial, sans-serif !important;
+  letter-spacing: 0.03em;
+  line-height: 1.7 !important;
+}
+
+html.accessible a,
+html.accessible button:not([class*="accessible-toggle"]) {
+  color: #ffff00 !important;
+  text-decoration: underline !important;
+}
+
+html.accessible img {
+  filter: grayscale(100%) contrast(1.3);
+}
+
+html.accessible header {
+  background: #000 !important;
+  border-color: #fff !important;
+}
+
+html.accessible [style*="background"] {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+html.accessible h1,
+html.accessible h2,
+html.accessible h3,
+html.accessible h4 {
+  color: #ffff00 !important;
+}
+
+html.accessible .text-white,
+html.accessible [class*="text-"] {
+  color: #fff !important;
+}
+
+html.accessible [class*="bg-"] {
+  background-color: #111 !important;
+}
+
+html.accessible [class*="border-"] {
+  border-color: #fff !important;
+}
+
+html.accessible input,
+html.accessible textarea,
+html.accessible select {
+  background: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}
+
+html.accessible .shadow,
+html.accessible [class*="shadow"] {
+  box-shadow: none !important;
+}

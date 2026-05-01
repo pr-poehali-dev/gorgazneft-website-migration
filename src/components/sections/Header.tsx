@@ -1,9 +1,11 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { NAV_LINKS } from "./data";
+import { useAccessibility } from "@/contexts/AccessibilityContext";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { isAccessible, toggle } = useAccessibility();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-border shadow-sm">
@@ -27,6 +29,19 @@ export default function Header() {
             </a>
           ))}
         </nav>
+
+        <button
+          onClick={toggle}
+          title={isAccessible ? "Обычная версия" : "Версия для слабовидящих"}
+          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded border text-xs font-semibold transition-colors"
+          style={isAccessible
+            ? { background: "hsl(42,80%,42%)", color: "#fff", borderColor: "hsl(42,80%,42%)" }
+            : { background: "transparent", color: "hsl(218,72%,28%)", borderColor: "hsl(218,72%,28%)" }
+          }
+        >
+          <Icon name="Eye" size={15} />
+          {isAccessible ? "Обычный режим" : "Для слабовидящих"}
+        </button>
 
         <a href="#enrollment" className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "hsl(218,72%,28%)" }}>
           <Icon name="PenLine" size={15} />
