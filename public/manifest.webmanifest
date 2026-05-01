@@ -4,21 +4,21 @@
   "description": "Повышение квалификации и профессиональная переподготовка по стандартам Ростехнадзора",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f2040",
+  "background_color": "#ffffff",
   "theme_color": "#1a3366",
   "orientation": "portrait-primary",
   "lang": "ru",
   "icons": [
     {
-      "src": "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/files/d63ea72c-28a8-4f75-ad11-6c802dcf0cec.jpg",
+      "src": "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/0844bfcb-cc26-4814-8fcb-251231d0e9cd.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/files/d63ea72c-28a8-4f75-ad11-6c802dcf0cec.jpg",
+      "src": "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/0844bfcb-cc26-4814-8fcb-251231d0e9cd.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     }
   ]
