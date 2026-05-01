@@ -2,6 +2,7 @@ import Header from "@/components/sections/Header";
 import MainSections from "@/components/sections/MainSections";
 import EnrollmentFooter from "@/components/sections/EnrollmentFooter";
 import Icon from "@/components/ui/icon";
+import InstallPrompt from "@/components/InstallPrompt";
 
 export default function Index() {
   return (
@@ -35,6 +36,7 @@ export default function Index() {
       </section>
 
       <EnrollmentFooter />
+      <InstallPrompt />
     </div>
   );
 }
