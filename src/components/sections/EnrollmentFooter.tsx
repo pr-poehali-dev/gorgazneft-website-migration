@@ -126,7 +126,7 @@ export default function EnrollmentFooter() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: "MapPin", title: "Адрес", value: "Респ. Башкортостан, г. Сибай, ул. Куйбышева, д. 20, офис 32", sub: "Пн–Пт, 09:00–18:00" },
-              { icon: "Phone", title: "Телефон", value: "+7 (905) 005-36-19", sub: "Звонки и MAX", href: "tel:+79050053619" },
+              { icon: "Phone", title: "Телефон", value: "+7 (905) 005-36-19", sub: "Звонки и MAX", href: "tel:+79050053619", maxHref: "https://max.ru/gorgazneft" },
               { icon: "Mail", title: "Email", value: "gorgazneft@mail.ru", sub: "Ответим в течение дня", href: "mailto:gorgazneft@mail.ru" },
               { icon: "Users", title: "ВКонтакте", value: "vk.com/gazneft2013", sub: "Новости и акции", href: "https://vk.com/gazneft2013" },
             ].map((c) => (
@@ -141,6 +141,11 @@ export default function EnrollmentFooter() {
                   <div className="text-sm font-medium mb-1">{c.value}</div>
                 )}
                 <div className="text-xs text-muted-foreground">{c.sub}</div>
+                {"maxHref" in c && (
+                  <a href={c.maxHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-2 px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ background: "hsl(218,72%,28%)" }}>
+                    MAX
+                  </a>
+                )}
               </div>
             ))}
           </div>
