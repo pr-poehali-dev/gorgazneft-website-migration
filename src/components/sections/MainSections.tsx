@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { COURSES, PROGRAMS, SCHEDULE, DOCUMENTS, REVIEWS } from "./data";
+import ProfessionsSection from "./ProfessionsSection";
 
 export default function MainSections() {
   const [lightbox, setLightbox] = useState<string | null>(null);
@@ -126,6 +127,8 @@ export default function MainSections() {
           </div>
         </div>
       </section>
+
+      <ProfessionsSection />
 
       {/* PROGRAMS */}
       <section id="programs" className="py-20" style={{ background: "hsl(214,32%,96%)" }}>
