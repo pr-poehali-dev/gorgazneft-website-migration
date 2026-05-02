@@ -33,18 +33,17 @@ export default function Header() {
         <button
           onClick={toggle}
           title={isAccessible ? "Обычная версия" : "Версия для слабовидящих"}
-          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded border text-xs font-semibold transition-colors"
+          className="hidden sm:inline-flex items-center justify-center w-8 h-8 rounded border transition-colors flex-shrink-0"
           style={isAccessible
             ? { background: "hsl(42,80%,42%)", color: "#fff", borderColor: "hsl(42,80%,42%)" }
             : { background: "transparent", color: "hsl(218,72%,28%)", borderColor: "hsl(218,72%,28%)" }
           }
         >
           <Icon name="Eye" size={15} />
-          {isAccessible ? "Обычный режим" : "Для слабовидящих"}
         </button>
 
-        <a href="#enrollment" className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "hsl(218,72%,28%)" }}>
-          <Icon name="PenLine" size={15} />
+        <a href="#enrollment" className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-white transition-opacity hover:opacity-90 flex-shrink-0" style={{ background: "hsl(218,72%,28%)" }}>
+          <Icon name="PenLine" size={13} />
           Записаться
         </a>
 
