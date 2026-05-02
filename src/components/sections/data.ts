@@ -7,6 +7,7 @@ export const NAV_LINKS = [
   { label: "Расписание", href: "#schedule" },
   { label: "Документы", href: "#documents" },
   { label: "Отзывы", href: "#reviews" },
+  { label: "FAQ", href: "#faq" },
   { label: "Контакты", href: "#contacts" },
 ];
 

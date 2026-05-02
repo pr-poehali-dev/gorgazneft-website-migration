@@ -1,5 +1,6 @@
 import Header from "@/components/sections/Header";
 import MainSections from "@/components/sections/MainSections";
+import FaqSection from "@/components/sections/FaqSection";
 import EnrollmentFooter from "@/components/sections/EnrollmentFooter";
 import Icon from "@/components/ui/icon";
 import InstallPrompt from "@/components/InstallPrompt";
@@ -35,6 +36,7 @@ export default function Index() {
         </div>
       </section>
 
+      <FaqSection />
       <EnrollmentFooter />
       <InstallPrompt />
     </div>
