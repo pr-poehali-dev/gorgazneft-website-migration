@@ -1,10 +1,37 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Icon from "@/components/ui/icon";
-import { COURSES, PROGRAMS, SCHEDULE, DOCUMENTS, REVIEWS } from "./data";
+import { COURSES, COURSE_CATEGORIES, PROGRAMS, SCHEDULE, DOCUMENTS, REVIEWS } from "./data";
 import ProfessionsSection from "./ProfessionsSection";
+
+const COURSES_PER_PAGE = 12;
 
 export default function MainSections() {
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [courseSearch, setCourseSearch] = useState("");
+  const [courseCategory, setCourseCategory] = useState("Все");
+  const [coursePage, setCoursePage] = useState(1);
+
+  const filteredCourses = useMemo(() => {
+    const q = courseSearch.toLowerCase();
+    return COURSES.filter((c) => {
+      const matchCat = courseCategory === "Все" || c.category === courseCategory;
+      const matchSearch = !q || c.title.toLowerCase().includes(q) || c.category.toLowerCase().includes(q);
+      return matchCat && matchSearch;
+    });
+  }, [courseSearch, courseCategory]);
+
+  const totalPages = Math.ceil(filteredCourses.length / COURSES_PER_PAGE);
+  const pagedCourses = filteredCourses.slice((coursePage - 1) * COURSES_PER_PAGE, coursePage * COURSES_PER_PAGE);
+
+  function handleCategoryChange(cat: string) {
+    setCourseCategory(cat);
+    setCoursePage(1);
+  }
+
+  function handleSearch(val: string) {
+    setCourseSearch(val);
+    setCoursePage(1);
+  }
 
   return (
     <>
@@ -158,44 +185,145 @@ export default function MainSections() {
       {/* COURSES */}
       <section id="courses" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-14">
-            <div className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: "hsl(218,72%,28%)" }}>Обучение</div>
-            <h2 className="font-golos text-3xl sm:text-4xl font-black mb-3" style={{ color: "hsl(218,72%,18%)" }}>Популярные курсы</h2>
-            <div className="section-divider mx-auto" />
+          <div className="text-center mb-10">
+            <div className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: "hsl(218,72%,28%)" }}>Прайс 2026</div>
+            <h2 className="font-golos text-3xl sm:text-4xl font-black mb-3" style={{ color: "hsl(218,72%,18%)" }}>Каталог курсов</h2>
+            <div className="section-divider mx-auto mb-4" />
+            <p className="text-sm text-muted-foreground max-w-xl mx-auto">
+              {COURSES.length} программ обучения · выдаются легитимные документы, вносятся в реестр Минтруда и ФИС ФРДО
+            </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {COURSES.map((c) => (
-              <div key={c.title} className="border border-border rounded-xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1 group">
-                <div className="p-6 border-b border-border" style={{ background: "hsl(218,72%,18%)" }}>
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <div className="text-xs font-medium mb-2 text-white/60">{c.category}</div>
-                      <h3 className="font-golos font-bold text-white text-lg leading-tight">{c.title}</h3>
-                    </div>
-                    <div className="ml-3 flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "rgba(255,255,255,0.12)" }}>
-                      <Icon name={c.icon} size={18} className="text-white" fallback="BookOpen" />
-                    </div>
-                  </div>
-                </div>
-                <div className="p-6 bg-white">
-                  <div className="flex flex-wrap gap-3 mb-5">
-                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <Icon name="Clock" size={13} />{c.duration}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <Icon name="Monitor" size={13} />{c.format}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="font-golos text-xl font-black" style={{ color: "hsl(218,72%,18%)" }}>{c.price}</div>
-                    <a href="#enrollment" className="inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded transition-opacity hover:opacity-80" style={{ background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }}>
-                      Записаться
-                    </a>
-                  </div>
-                </div>
-              </div>
+
+          {/* Search */}
+          <div className="relative max-w-lg mx-auto mb-6">
+            <Icon name="Search" size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Поиск по названию курса..."
+              value={courseSearch}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{ focusRingColor: "hsl(218,72%,28%)" } as React.CSSProperties}
+            />
+          </div>
+
+          {/* Category filters */}
+          <div className="flex flex-wrap gap-2 mb-8 justify-center">
+            {["Все", ...COURSE_CATEGORIES].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => handleCategoryChange(cat)}
+                className="px-3 py-1.5 rounded-full text-xs font-medium transition-colors border"
+                style={
+                  courseCategory === cat
+                    ? { background: "hsl(218,72%,18%)", color: "white", borderColor: "hsl(218,72%,18%)" }
+                    : { background: "white", color: "hsl(218,72%,28%)", borderColor: "hsl(214,32%,85%)" }
+                }
+              >
+                {cat}
+              </button>
             ))}
           </div>
+
+          {/* Results count */}
+          <div className="text-xs text-muted-foreground mb-5">
+            Найдено: <span className="font-semibold text-foreground">{filteredCourses.length}</span> курсов
+            {totalPages > 1 && <span> · страница {coursePage} из {totalPages}</span>}
+          </div>
+
+          {/* Cards */}
+          {pagedCourses.length > 0 ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {pagedCourses.map((c) => (
+                <div key={c.id} className="border border-border rounded-xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-0.5 group flex flex-col">
+                  <div className="p-5 border-b border-border flex items-start justify-between gap-3" style={{ background: "hsl(218,72%,18%)" }}>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-medium mb-1.5 text-white/60">{c.category}</div>
+                      <h3 className="font-golos font-bold text-white text-sm leading-snug">{c.title}</h3>
+                    </div>
+                    <div className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(255,255,255,0.12)" }}>
+                      <Icon name={c.icon} size={16} className="text-white" fallback="BookOpen" />
+                    </div>
+                  </div>
+                  <div className="p-5 bg-white flex-1 flex flex-col justify-between">
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-4">
+                      <Icon name="Clock" size={12} />
+                      <span>{c.hours}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="font-golos text-lg font-black" style={{ color: "hsl(218,72%,18%)" }}>
+                        {c.price.toLocaleString("ru-RU")} ₽
+                      </div>
+                      <a
+                        href="#enrollment"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded transition-opacity hover:opacity-80"
+                        style={{ background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }}
+                      >
+                        Записаться
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16 text-muted-foreground">
+              <Icon name="SearchX" size={40} className="mx-auto mb-3 opacity-30" />
+              <p className="text-sm">По вашему запросу ничего не найдено</p>
+              <button onClick={() => { handleSearch(""); handleCategoryChange("Все"); }} className="mt-3 text-xs underline" style={{ color: "hsl(218,72%,28%)" }}>
+                Сбросить фильтры
+              </button>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-10">
+              <button
+                onClick={() => setCoursePage((p) => Math.max(1, p - 1))}
+                disabled={coursePage === 1}
+                className="w-8 h-8 rounded-lg border border-border flex items-center justify-center disabled:opacity-30 hover:bg-muted transition-colors"
+              >
+                <Icon name="ChevronLeft" size={16} />
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((p) => p === 1 || p === totalPages || Math.abs(p - coursePage) <= 2)
+                .reduce<(number | "...")[]>((acc, p, i, arr) => {
+                  if (i > 0 && (p as number) - (arr[i - 1] as number) > 1) acc.push("...");
+                  acc.push(p);
+                  return acc;
+                }, [])
+                .map((p, i) =>
+                  p === "..." ? (
+                    <span key={`ellipsis-${i}`} className="w-8 text-center text-xs text-muted-foreground">…</span>
+                  ) : (
+                    <button
+                      key={p}
+                      onClick={() => setCoursePage(p as number)}
+                      className="w-8 h-8 rounded-lg border text-xs font-semibold transition-colors"
+                      style={
+                        coursePage === p
+                          ? { background: "hsl(218,72%,18%)", color: "white", borderColor: "hsl(218,72%,18%)" }
+                          : { borderColor: "hsl(214,32%,85%)", color: "hsl(218,72%,28%)" }
+                      }
+                    >
+                      {p}
+                    </button>
+                  )
+                )}
+              <button
+                onClick={() => setCoursePage((p) => Math.min(totalPages, p + 1))}
+                disabled={coursePage === totalPages}
+                className="w-8 h-8 rounded-lg border border-border flex items-center justify-center disabled:opacity-30 hover:bg-muted transition-colors"
+              >
+                <Icon name="ChevronRight" size={16} />
+              </button>
+            </div>
+          )}
+
+          <p className="text-center text-xs text-muted-foreground mt-8">
+            * Большие часы — при первичном обучении; меньшие — при повышении квалификации. Для постоянных заказчиков — гибкая система скидок.
+          </p>
         </div>
       </section>
 
