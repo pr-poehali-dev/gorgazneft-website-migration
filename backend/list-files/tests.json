@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "name": "Список файлов из S3",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": "string",
+      "bodyMatcher": "any"
+    }
+  ]
+}

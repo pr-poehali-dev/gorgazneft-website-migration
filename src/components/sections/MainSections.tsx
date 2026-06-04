@@ -1,15 +1,39 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 import { COURSES, COURSE_CATEGORIES, PROGRAMS, SCHEDULE, DOCUMENTS, REVIEWS } from "./data";
 import ProfessionsSection from "./ProfessionsSection";
+
+const LIST_FILES_URL = "https://functions.poehali.dev/840a506b-97b2-4b51-9165-b9b2fd02c787";
+
+type DocFile = { name: string; url: string; size: number };
 
 const COURSES_PER_PAGE = 12;
 
 export default function MainSections() {
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [docsOpen, setDocsOpen] = useState(false);
+  const [docFiles, setDocFiles] = useState<DocFile[]>([]);
+  const [docSearch, setDocSearch] = useState("");
+  const [docsLoading, setDocsLoading] = useState(false);
   const [courseSearch, setCourseSearch] = useState("");
   const [courseCategory, setCourseCategory] = useState("Все");
   const [coursePage, setCoursePage] = useState(1);
+
+  useEffect(() => {
+    if (!docsOpen || docFiles.length > 0) return;
+    setDocsLoading(true);
+    fetch(LIST_FILES_URL)
+      .then((r) => r.json())
+      .then((data) => setDocFiles(data.files || []))
+      .catch(() => setDocFiles([]))
+      .finally(() => setDocsLoading(false));
+  }, [docsOpen, docFiles.length]);
+
+  const filteredDocFiles = useMemo(() => {
+    if (!docSearch.trim()) return docFiles;
+    const q = docSearch.toLowerCase();
+    return docFiles.filter((f) => f.name.toLowerCase().includes(q));
+  }, [docFiles, docSearch]);
 
   const filteredCourses = useMemo(() => {
     const q = courseSearch.toLowerCase();
@@ -399,6 +423,89 @@ export default function MainSections() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Нормативные документы Word */}
+          <div className="mt-10">
+            <button
+              onClick={() => setDocsOpen((v) => !v)}
+              className="w-full flex items-center justify-between px-6 py-4 rounded-xl border border-white/20 hover:border-white/40 transition-colors group"
+              style={{ background: "hsl(218,65%,24%)" }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "hsl(42,90%,52%)" }}>
+                  <Icon name="FolderOpen" size={18} style={{ color: "hsl(218,72%,10%)" }} />
+                </div>
+                <div className="text-left">
+                  <div className="font-golos font-bold text-white text-sm">Нормативные и учебные документы</div>
+                  <div className="text-white/50 text-xs mt-0.5">Положения, правила, образцы документов — для скачивания</div>
+                </div>
+              </div>
+              <Icon
+                name="ChevronDown"
+                size={18}
+                className="text-white/50 flex-shrink-0 transition-transform"
+                style={{ transform: docsOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+              />
+            </button>
+
+            {docsOpen && (
+              <div className="mt-3 rounded-xl border border-white/15 overflow-hidden" style={{ background: "hsl(218,65%,22%)" }}>
+                {/* Поиск */}
+                <div className="p-4 border-b border-white/10">
+                  <div className="relative">
+                    <Icon name="Search" size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+                    <input
+                      type="text"
+                      placeholder="Поиск по названию документа..."
+                      value={docSearch}
+                      onChange={(e) => setDocSearch(e.target.value)}
+                      className="w-full pl-8 pr-4 py-2 rounded-lg text-sm text-white placeholder-white/30 border border-white/15 focus:outline-none focus:border-white/40 transition-colors"
+                      style={{ background: "hsl(218,72%,18%)" }}
+                    />
+                  </div>
+                </div>
+
+                {/* Список */}
+                <div className="max-h-96 overflow-y-auto">
+                  {docsLoading ? (
+                    <div className="flex items-center justify-center gap-2 py-10 text-white/50 text-sm">
+                      <Icon name="Loader" size={16} className="animate-spin" />
+                      Загружаем список...
+                    </div>
+                  ) : filteredDocFiles.length === 0 ? (
+                    <div className="text-center py-10 text-white/40 text-sm">
+                      {docFiles.length === 0 ? "Файлы не найдены" : "Ничего не найдено по запросу"}
+                    </div>
+                  ) : (
+                    filteredDocFiles.map((f, i) => (
+                      <a
+                        key={f.url}
+                        href={f.url}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors group border-b border-white/5 last:border-0"
+                      >
+                        <div className="flex-shrink-0 w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255,255,255,0.08)" }}>
+                          <Icon name="FileText" size={14} className="text-white/60" />
+                        </div>
+                        <span className="flex-1 text-sm text-white/80 group-hover:text-white transition-colors leading-snug truncate">
+                          {f.name.replace(/\.docx$/i, "")}
+                        </span>
+                        <Icon name="Download" size={14} className="flex-shrink-0 text-white/30 group-hover:text-white/70 transition-colors" />
+                      </a>
+                    ))
+                  )}
+                </div>
+
+                {!docsLoading && filteredDocFiles.length > 0 && (
+                  <div className="px-5 py-3 border-t border-white/10 text-white/30 text-xs">
+                    {filteredDocFiles.length} {filteredDocFiles.length === 1 ? "документ" : filteredDocFiles.length < 5 ? "документа" : "документов"}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>
