@@ -5,7 +5,7 @@ import ProfessionsSection from "./ProfessionsSection";
 
 const LIST_FILES_URL = "https://functions.poehali.dev/840a506b-97b2-4b51-9165-b9b2fd02c787";
 
-type DocFile = { name: string; url: string; size: number };
+type DocFile = { name: string; url: string; size: number; folder: string };
 
 const COURSES_PER_PAGE = 12;
 
@@ -14,6 +14,7 @@ export default function MainSections() {
   const [docsOpen, setDocsOpen] = useState(false);
   const [docFiles, setDocFiles] = useState<DocFile[]>([]);
   const [docSearch, setDocSearch] = useState("");
+  const [docFolder, setDocFolder] = useState("Все");
   const [docsLoading, setDocsLoading] = useState(false);
   const [courseSearch, setCourseSearch] = useState("");
   const [courseCategory, setCourseCategory] = useState("Все");
@@ -29,11 +30,18 @@ export default function MainSections() {
       .finally(() => setDocsLoading(false));
   }, [docsOpen, docFiles.length]);
 
+  const docFolders = useMemo(() => {
+    const set = new Set(docFiles.map((f) => f.folder));
+    return ["Все", ...Array.from(set).sort()];
+  }, [docFiles]);
+
   const filteredDocFiles = useMemo(() => {
-    if (!docSearch.trim()) return docFiles;
-    const q = docSearch.toLowerCase();
-    return docFiles.filter((f) => f.name.toLowerCase().includes(q));
-  }, [docFiles, docSearch]);
+    return docFiles.filter((f) => {
+      const matchFolder = docFolder === "Все" || f.folder === docFolder;
+      const matchSearch = !docSearch.trim() || f.name.toLowerCase().includes(docSearch.toLowerCase());
+      return matchFolder && matchSearch;
+    });
+  }, [docFiles, docSearch, docFolder]);
 
   const filteredCourses = useMemo(() => {
     const q = courseSearch.toLowerCase();
@@ -451,6 +459,7 @@ export default function MainSections() {
 
             {docsOpen && (
               <div className="mt-3 rounded-xl border border-white/15 overflow-hidden" style={{ background: "hsl(218,65%,22%)" }}>
+
                 {/* Поиск */}
                 <div className="p-4 border-b border-white/10">
                   <div className="relative">
@@ -459,14 +468,39 @@ export default function MainSections() {
                       type="text"
                       placeholder="Поиск по названию документа..."
                       value={docSearch}
-                      onChange={(e) => setDocSearch(e.target.value)}
+                      onChange={(e) => { setDocSearch(e.target.value); setDocFolder("Все"); }}
                       className="w-full pl-8 pr-4 py-2 rounded-lg text-sm text-white placeholder-white/30 border border-white/15 focus:outline-none focus:border-white/40 transition-colors"
                       style={{ background: "hsl(218,72%,18%)" }}
                     />
                   </div>
                 </div>
 
-                {/* Список */}
+                {/* Вкладки папок */}
+                {!docsLoading && docFolders.length > 2 && (
+                  <div className="flex flex-wrap gap-1.5 px-4 py-3 border-b border-white/10">
+                    {docFolders.map((folder) => {
+                      const count = folder === "Все" ? docFiles.length : docFiles.filter((f) => f.folder === folder).length;
+                      return (
+                        <button
+                          key={folder}
+                          onClick={() => { setDocFolder(folder); setDocSearch(""); }}
+                          className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors"
+                          style={
+                            docFolder === folder
+                              ? { background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }
+                              : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)" }
+                          }
+                        >
+                          <Icon name="Folder" size={11} />
+                          {folder}
+                          <span className="opacity-60 text-xs">({count})</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Список файлов */}
                 <div className="max-h-96 overflow-y-auto">
                   {docsLoading ? (
                     <div className="flex items-center justify-center gap-2 py-10 text-white/50 text-sm">
@@ -475,10 +509,10 @@ export default function MainSections() {
                     </div>
                   ) : filteredDocFiles.length === 0 ? (
                     <div className="text-center py-10 text-white/40 text-sm">
-                      {docFiles.length === 0 ? "Файлы не найдены" : "Ничего не найдено по запросу"}
+                      {docFiles.length === 0 ? "Файлы не найдены" : "Ничего не найдено"}
                     </div>
                   ) : (
-                    filteredDocFiles.map((f, i) => (
+                    filteredDocFiles.map((f) => (
                       <a
                         key={f.url}
                         href={f.url}
@@ -490,9 +524,14 @@ export default function MainSections() {
                         <div className="flex-shrink-0 w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255,255,255,0.08)" }}>
                           <Icon name="FileText" size={14} className="text-white/60" />
                         </div>
-                        <span className="flex-1 text-sm text-white/80 group-hover:text-white transition-colors leading-snug truncate">
-                          {f.name.replace(/\.docx$/i, "")}
-                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="block text-sm text-white/80 group-hover:text-white transition-colors leading-snug truncate">
+                            {f.name.replace(/\.docx?$/i, "")}
+                          </span>
+                          {docFolder === "Все" && (
+                            <span className="text-xs text-white/30 mt-0.5 block">{f.folder}</span>
+                          )}
+                        </div>
                         <Icon name="Download" size={14} className="flex-shrink-0 text-white/30 group-hover:text-white/70 transition-colors" />
                       </a>
                     ))
@@ -502,6 +541,7 @@ export default function MainSections() {
                 {!docsLoading && filteredDocFiles.length > 0 && (
                   <div className="px-5 py-3 border-t border-white/10 text-white/30 text-xs">
                     {filteredDocFiles.length} {filteredDocFiles.length === 1 ? "документ" : filteredDocFiles.length < 5 ? "документа" : "документов"}
+                    {docFolder !== "Все" && ` · ${docFolder}`}
                   </div>
                 )}
               </div>
