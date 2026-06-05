@@ -1,7 +1,6 @@
 """Генерирует PDF квитанцию для оплаты обучения в АНО ДПО УЦГТН"""
 import base64
 import io
-import json
 import urllib.request
 
 
@@ -15,12 +14,7 @@ def handler(event: dict, context) -> dict:
     if event.get("httpMethod") == "OPTIONS":
         return {"statusCode": 200, "headers": cors, "body": ""}
 
-    from reportlab.lib.pagesizes import A5, landscape
-    from reportlab.lib import colors
-    from reportlab.lib.units import mm
-    from reportlab.pdfgen import canvas
-    from reportlab.pdfbase import pdfmetrics
-    from reportlab.pdfbase.ttfonts import TTFont
+    from fpdf import FPDF
     from PIL import Image as PILImage
 
     # Скачиваем QR-код
@@ -28,105 +22,162 @@ def handler(event: dict, context) -> dict:
     with urllib.request.urlopen(qr_url) as resp:
         qr_data = resp.read()
 
-    qr_img = PILImage.open(io.BytesIO(qr_data)).convert("RGB")
-    qr_buf = io.BytesIO()
-    qr_img.save(qr_buf, format="PNG")
-    qr_buf.seek(0)
+    # Сохраняем QR во временный файл (fpdf2 требует путь)
+    import tempfile, os
+    tmp = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+    tmp.write(qr_data)
+    tmp.close()
+    qr_path = tmp.name
 
-    buf = io.BytesIO()
-    w, h = landscape(A5)
-    c = canvas.Canvas(buf, pagesize=(w, h))
+    pdf = FPDF(orientation="L", unit="mm", format="A5")
+    pdf.add_page()
+    pdf.set_auto_page_break(False)
 
-    # Фон
-    c.setFillColorRGB(1, 1, 1)
-    c.rect(0, 0, w, h, fill=1, stroke=0)
+    W = pdf.w   # ~210mm (A5 landscape width)
+    H = pdf.h   # ~148mm
 
-    # Разделитель по центру
-    mid = w / 2
-    c.setStrokeColorRGB(0.7, 0.7, 0.7)
-    c.setDash(4, 4)
-    c.line(mid, 5 * mm, mid, h - 5 * mm)
-    c.setDash()
+    mid = W / 2
 
-    # --- Левая часть: реквизиты ---
-    left = 8 * mm
-    right_left = mid - 8 * mm
+    # Фон белый — по умолчанию
 
-    def txt(text, x, y, size=8, bold=False, color=(0, 0, 0)):
-        c.setFillColorRGB(*color)
-        c.setFont("Helvetica-Bold" if bold else "Helvetica", size)
-        c.drawString(x, y, text)
+    # Пунктирная линия-разделитель
+    pdf.set_draw_color(180, 180, 180)
+    pdf.set_line_width(0.3)
+    pdf.dashed_line(mid, 5, mid, H - 5, dash_length=2, space_length=2)
+    pdf.set_line_width(0.2)
+    pdf.set_draw_color(0, 0, 0)
 
-    def line_under(x1, x2, y):
-        c.setStrokeColorRGB(0, 0, 0)
-        c.setDash()
-        c.line(x1, y, x2, y)
+    left = 8
+    rr = mid - 8   # правая граница левой части
 
-    y = h - 12 * mm
+    def bold(size=9):
+        pdf.set_font("helvetica", style="B", size=size)
+
+    def regular(size=8):
+        pdf.set_font("helvetica", style="", size=size)
+
+    def small(size=6):
+        pdf.set_font("helvetica", style="", size=size)
+
+    def hline(x1, x2, y):
+        pdf.set_draw_color(0, 0, 0)
+        pdf.line(x1, y, x2, y)
+
+    # ---------- ЛЕВАЯ ЧАСТЬ ----------
+    y = 12
 
     # Получатель
-    txt("АНО ДПО «Учебный центр ГорГазНефть»", left, y, size=9, bold=True)
-    line_under(left, right_left, y - 1 * mm)
-    y -= 5 * mm
-    txt("(наименование получателя платежа)", left + 10 * mm, y, size=6, color=(0.4, 0.4, 0.4))
-    y -= 7 * mm
+    bold(9)
+    pdf.set_text_color(0, 0, 0)
+    pdf.set_xy(left, y)
+    pdf.cell(rr - left, 5, "ANO DPO «Uchebny Centr GorGazNeft»", ln=0)
+    hline(left, rr, y + 5)
+    y += 6
+    small(6)
+    pdf.set_text_color(120, 120, 120)
+    pdf.set_xy(left + 10, y)
+    pdf.cell(50, 4, "(naimenovanie poluchatelya platezha)")
+    y += 6
 
     # ИНН и счёт
-    txt("ИНН  0268104892", left, y, size=8, bold=True)
-    txt("№  40703810880690000003", left + 35 * mm, y, size=8, bold=True)
-    line_under(left + 32 * mm, right_left, y - 1 * mm)
-    y -= 5 * mm
-    txt("(ИНН получателя платежа)", left, y, size=6, color=(0.4, 0.4, 0.4))
-    txt("(номер счёта получателя платежа)", left + 40 * mm, y, size=6, color=(0.4, 0.4, 0.4))
-    y -= 7 * mm
+    bold(8)
+    pdf.set_text_color(0, 0, 0)
+    pdf.set_xy(left, y)
+    pdf.cell(30, 5, "INN  0268104892")
+    pdf.set_xy(left + 38, y)
+    pdf.cell(60, 5, "No.  40703810880690000003")
+    hline(left + 33, rr, y + 5)
+    y += 6
+    small(6)
+    pdf.set_text_color(120, 120, 120)
+    pdf.set_xy(left, y)
+    pdf.cell(33, 4, "(INN poluchatelya)")
+    pdf.set_xy(left + 38, y)
+    pdf.cell(60, 4, "(nomer scheta poluchatelya platezha)")
+    y += 6
 
     # Банк
-    txt("АО \"АЛЬФА-БАНК\"  КПП 026801001", left, y, size=9, bold=True)
-    line_under(left, right_left, y - 1 * mm)
-    y -= 5 * mm
-    txt("(наименование банка получателя платежа)", left + 15 * mm, y, size=6, color=(0.4, 0.4, 0.4))
-    y -= 7 * mm
+    bold(9)
+    pdf.set_text_color(0, 0, 0)
+    pdf.set_xy(left, y)
+    pdf.cell(rr - left, 5, "AO \"ALFA-BANK\"  KPP 026801001")
+    hline(left, rr, y + 5)
+    y += 6
+    small(6)
+    pdf.set_text_color(120, 120, 120)
+    pdf.set_xy(left + 15, y)
+    pdf.cell(80, 4, "(naimenovanie banka poluchatelya platezha)")
+    y += 6
 
     # БИК и к/с
-    txt("БИК 044525593  К/с 30101810200000000593", left, y, size=8, bold=True)
-    line_under(left, right_left, y - 1 * mm)
-    y -= 5 * mm
-    txt("(номер кор./с банка получателя платежа)", left + 15 * mm, y, size=6, color=(0.4, 0.4, 0.4))
-    y -= 9 * mm
+    bold(8)
+    pdf.set_text_color(0, 0, 0)
+    pdf.set_xy(left, y)
+    pdf.cell(rr - left, 5, "BIK 044525593  K/s 30101810200000000593")
+    hline(left, rr, y + 5)
+    y += 6
+    small(6)
+    pdf.set_text_color(120, 120, 120)
+    pdf.set_xy(left + 15, y)
+    pdf.cell(80, 4, "(nomer kor./s banka poluchatelya platezha)")
+    y += 9
 
     # Плательщик
-    txt("Плательщик: _______________________________________________", left, y, size=8)
-    y -= 5 * mm
-    txt("ФИО (полностью)", left + 22 * mm, y, size=6, color=(0.4, 0.4, 0.4))
-    y -= 9 * mm
+    regular(8)
+    pdf.set_text_color(0, 0, 0)
+    pdf.set_xy(left, y)
+    pdf.cell(25, 5, "Platelshchik: ")
+    hline(left + 24, rr, y + 4)
+    y += 6
+    small(6)
+    pdf.set_text_color(120, 120, 120)
+    pdf.set_xy(left + 28, y)
+    pdf.cell(40, 4, "FIO (polnostyu)")
+    y += 8
 
     # Назначение платежа
-    txt("Назначение платежа: Оплата за обучение", left, y, size=8)
-    c.setStrokeColorRGB(1, 0, 0)
-    c.line(left + 34 * mm, y - 1 * mm, right_left, y - 1 * mm)
-    y -= 9 * mm
+    regular(8)
+    pdf.set_text_color(0, 0, 0)
+    pdf.set_xy(left, y)
+    pdf.cell(rr - left, 5, "Naznachenie platezha: Oplata za obuchenie")
+    pdf.set_draw_color(200, 0, 0)
+    pdf.line(left + 38, y + 4, rr, y + 4)
+    pdf.set_draw_color(0, 0, 0)
+    y += 9
 
-    txt("по профессии _______________________________________________", left, y, size=8)
-    y -= 9 * mm
+    # по профессии
+    regular(8)
+    pdf.set_xy(left, y)
+    pdf.cell(20, 5, "po professii ")
+    hline(left + 19, rr, y + 4)
+    y += 9
 
     # Сумма
-    txt("Сумма платежа: ________________ руб. ________ коп.", left, y, size=8)
+    regular(8)
+    pdf.set_xy(left, y)
+    pdf.cell(rr - left, 5, "Summa platezha: ________________ rub. ________ kop.")
 
-    # --- Правая часть: QR-код ---
-    qr_x = mid + 8 * mm
-    qr_y = 12 * mm
-    qr_size = 55 * mm
+    # ---------- ПРАВАЯ ЧАСТЬ ----------
+    rx = mid + 8
 
-    txt("Оплатить можно QR-кодом", qr_x, h - 12 * mm, size=9, bold=True)
+    bold(9)
+    pdf.set_text_color(0, 0, 0)
+    pdf.set_xy(rx, 12)
+    pdf.cell(W - rx - 5, 6, "Oplatit mozhno QR-kodom")
 
-    from reportlab.lib.utils import ImageReader
-    qr_reader = ImageReader(qr_buf)
-    c.drawImage(qr_reader, qr_x, qr_y, width=qr_size, height=qr_size)
+    # QR-код
+    qr_size = 58
+    qr_y = H - qr_size - 14
+    pdf.image(qr_path, x=rx + 2, y=qr_y, w=qr_size, h=qr_size)
 
-    txt("Сканируйте камерой телефона", qr_x + 2 * mm, qr_y - 6 * mm, size=7, color=(0.4, 0.4, 0.4))
+    small(7)
+    pdf.set_text_color(120, 120, 120)
+    pdf.set_xy(rx, qr_y + qr_size + 2)
+    pdf.cell(W - rx - 5, 4, "Skaniruyte kameroj telefona")
 
-    c.save()
-    pdf_bytes = buf.getvalue()
+    os.unlink(qr_path)
+
+    pdf_bytes = pdf.output()
     encoded = base64.b64encode(pdf_bytes).decode("utf-8")
 
     return {
