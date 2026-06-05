@@ -282,10 +282,7 @@ export default function MainSections() {
                       <Icon name="Clock" size={12} />
                       <span>{c.hours}</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="font-golos text-lg font-black" style={{ color: "hsl(218,72%,18%)" }}>
-                        {c.price.toLocaleString("ru-RU")} ₽
-                      </div>
+                    <div className="flex items-center justify-end">
                       <a
                         href="#enrollment"
                         className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded transition-opacity hover:opacity-80"
