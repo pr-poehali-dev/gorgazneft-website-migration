@@ -101,20 +101,72 @@ export default function MainSections() {
           </div>
 
           <div className="hidden lg:block animate-fade-in">
-            <div className="rounded-xl border border-white/15 p-8 space-y-4" style={{ background: "rgba(255,255,255,0.06)" }}>
-              <div className="text-white/50 text-xs uppercase tracking-widest mb-4">Ближайшие старты</div>
-              {SCHEDULE.slice(0, 4).map((s) => (
-                <div key={s.course} className="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
-                  <div>
-                    <div className="text-white text-sm font-medium">{s.course}</div>
-                    <div className="text-white/50 text-xs mt-0.5">{s.format} · {s.duration}</div>
+            <div className="rounded-xl border border-white/15 p-7" style={{ background: "rgba(255,255,255,0.06)" }}>
+              <div className="text-white/50 text-xs uppercase tracking-widest mb-5">Оплата обучения</div>
+              <div className="flex gap-6 items-start">
+                {/* QR-код */}
+                <div className="flex-shrink-0">
+                  <div className="rounded-lg overflow-hidden bg-white p-2" style={{ width: 130, height: 130 }}>
+                    <img
+                      src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/b3c7d3b1-bb11-474e-b295-025e40aad70e.png"
+                      alt="QR для оплаты"
+                      className="w-full h-full object-contain"
+                      style={{ imageRendering: "pixelated" }}
+                    />
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm font-semibold" style={{ color: "hsl(42,90%,52%)" }}>{s.start}</div>
-                    <div className="text-white/40 text-xs">{s.seats}</div>
+                  <div className="text-white/40 text-xs text-center mt-2">Сканируй и оплачивай</div>
+                </div>
+                {/* Реквизиты */}
+                <div className="flex-1 space-y-2 text-xs">
+                  <div>
+                    <div className="text-white/40">Получатель</div>
+                    <div className="text-white font-medium leading-snug">АНО ДПО «Учебный центр ГорГазНефть»</div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
+                    <div>
+                      <div className="text-white/40">ИНН</div>
+                      <div className="text-white">0268104892</div>
+                    </div>
+                    <div>
+                      <div className="text-white/40">КПП</div>
+                      <div className="text-white">026801001</div>
+                    </div>
+                    <div>
+                      <div className="text-white/40">Банк</div>
+                      <div className="text-white">АО «Альфа-Банк»</div>
+                    </div>
+                    <div>
+                      <div className="text-white/40">БИК</div>
+                      <div className="text-white">044525593</div>
+                    </div>
+                    <div className="col-span-2">
+                      <div className="text-white/40">Счёт</div>
+                      <div className="text-white font-mono">40703810880690000003</div>
+                    </div>
                   </div>
                 </div>
-              ))}
+              </div>
+              {/* Кнопка скачать квитанцию */}
+              <a
+                href="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/b3c7d3b1-bb11-474e-b295-025e40aad70e.png"
+                onClick={(e) => {
+                  e.preventDefault();
+                  fetch("https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/b3c7d3b1-bb11-474e-b295-025e40aad70e.png")
+                    .then(r => r.blob())
+                    .then(blob => {
+                      const a = document.createElement("a");
+                      a.href = URL.createObjectURL(blob);
+                      a.download = "Квитанция_УЦ_ГорГазНефть.png";
+                      a.click();
+                      URL.revokeObjectURL(a.href);
+                    });
+                }}
+                className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer"
+                style={{ background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }}
+              >
+                <Icon name="Download" size={15} />
+                Скачать квитанцию
+              </a>
             </div>
           </div>
         </div>
