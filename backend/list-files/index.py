@@ -37,28 +37,25 @@ def handler(event: dict, context) -> dict:
 
     access_key = os.environ["AWS_ACCESS_KEY_ID"]
 
-    # Пробуем несколько возможных имён бакета
-    candidate_buckets = ["files", "storage", "documents", "docs", access_key]
+    # Пробуем несколько возможных имён бакета (bucket — основной у платформы poehali)
+    candidate_buckets = ["bucket", "files", "storage", "documents", "docs", access_key]
     all_keys = []
     files = []
     bucket_found = None
+    debug_errors = []
 
     for candidate in candidate_buckets:
         try:
             paginator = s3.get_paginator("list_objects_v2")
-            found_any = False
             tmp_keys = []
             for page in paginator.paginate(Bucket=candidate):
                 for obj in page.get("Contents", []):
-                    found_any = True
                     tmp_keys.append(obj["Key"])
-            if found_any or True:
-                bucket_found = candidate
-                all_keys = tmp_keys
-                bucket = candidate
-                break
+            bucket_found = candidate
+            all_keys = tmp_keys
+            break
         except Exception as e:
-            all_keys.append(f"bucket '{candidate}' error: {str(e)}")
+            debug_errors.append(f"{candidate}: {str(e)[:80]}")
             continue
 
     # Ищем .doc/.docx в найденных ключах
@@ -83,6 +80,7 @@ def handler(event: dict, context) -> dict:
     if debug:
         result["all_keys"] = all_keys
         result["bucket_found"] = bucket_found
+        result["errors"] = debug_errors
         result["access_key_prefix"] = access_key[:8] + "..."
 
     return {
