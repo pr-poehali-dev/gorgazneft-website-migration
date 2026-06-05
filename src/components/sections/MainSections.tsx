@@ -490,13 +490,20 @@ export default function MainSections() {
                     </div>
                   ) : (
                     filteredDocFiles.map((f) => (
-                      <a
+                      <div
                         key={f.url}
-                        href={f.url}
-                        download={`${f.name}.docx`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors group border-b border-white/5 last:border-0"
+                        className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors group border-b border-white/5 last:border-0 cursor-pointer"
+                        onClick={() => {
+                          fetch(f.url)
+                            .then((r) => r.blob())
+                            .then((blob) => {
+                              const a = document.createElement("a");
+                              a.href = URL.createObjectURL(blob);
+                              a.download = `${f.name}.docx`;
+                              a.click();
+                              URL.revokeObjectURL(a.href);
+                            });
+                        }}
                       >
                         <div className="flex-shrink-0 w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255,255,255,0.08)" }}>
                           <Icon name="FileText" size={14} className="text-white/60" />
@@ -510,7 +517,7 @@ export default function MainSections() {
                           )}
                         </div>
                         <Icon name="Download" size={14} className="flex-shrink-0 text-white/30 group-hover:text-white/70 transition-colors" />
-                      </a>
+                      </div>
                     ))
                   )}
                 </div>
