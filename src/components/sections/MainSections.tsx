@@ -60,7 +60,7 @@ export default function MainSections() {
         <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-5" style={{ background: "linear-gradient(135deg, transparent 0%, hsl(210,80%,60%) 100%)" }} />
         <div className="absolute bottom-0 left-0 right-0 h-24" style={{ background: "linear-gradient(to top, hsl(218,72%,14%), transparent)" }} />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="animate-slide-up">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6 border border-white/20 text-white/70">
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "hsl(42,90%,52%)" }}></span>
@@ -100,23 +100,23 @@ export default function MainSections() {
             </div>
           </div>
 
-          <div className="hidden lg:block animate-fade-in">
-            <div className="rounded-xl border border-white/15 p-7" style={{ background: "rgba(255,255,255,0.06)" }}>
-              <div className="text-white/50 text-xs uppercase tracking-widest mb-5">Оплата обучения</div>
-              <div className="flex gap-6 items-start">
+          <div className="animate-fade-in">
+            <div className="rounded-xl border border-white/15 p-5 sm:p-7" style={{ background: "rgba(255,255,255,0.06)" }}>
+              <div className="text-white/50 text-xs uppercase tracking-widest mb-4">Оплата обучения</div>
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
                 {/* QR-код */}
-                <div className="flex-shrink-0">
-                  <div className="rounded-lg overflow-hidden bg-white p-2" style={{ width: 130, height: 130 }}>
+                <div className="flex sm:flex-col items-center gap-4 sm:gap-0 w-full sm:w-auto">
+                  <div className="rounded-lg overflow-hidden bg-white p-2 flex-shrink-0" style={{ width: 110, height: 110 }}>
                     <img
                       src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/72c27b20-f126-4633-ac5e-1872acb88dc6.png"
                       alt="QR для оплаты"
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <div className="text-white/40 text-xs text-center mt-2">Сканируй и оплачивай</div>
+                  <div className="text-white/40 text-xs sm:text-center sm:mt-2">Сканируй и оплачивай</div>
                 </div>
                 {/* Реквизиты */}
-                <div className="flex-1 space-y-2 text-xs">
+                <div className="flex-1 space-y-2 text-xs w-full">
                   <div>
                     <div className="text-white/40">Получатель</div>
                     <div className="text-white font-medium leading-snug">АНО ДПО «Учебный центр ГорГазНефть»</div>
@@ -140,7 +140,7 @@ export default function MainSections() {
                     </div>
                     <div className="col-span-2">
                       <div className="text-white/40">Счёт</div>
-                      <div className="text-white font-mono">40703810880690000003</div>
+                      <div className="text-white font-mono text-[11px]">40703810880690000003</div>
                     </div>
                   </div>
                 </div>
@@ -158,7 +158,7 @@ export default function MainSections() {
                       URL.revokeObjectURL(a.href);
                     });
                 }}
-                className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer"
+                className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer"
                 style={{ background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }}
               >
                 <Icon name="Download" size={15} />

@@ -33,7 +33,7 @@ export default function Header() {
         <button
           onClick={toggle}
           title={isAccessible ? "Обычная версия" : "Версия для слабовидящих"}
-          className="hidden sm:inline-flex items-center justify-center w-8 h-8 rounded border transition-colors flex-shrink-0"
+          className="inline-flex items-center justify-center w-8 h-8 rounded border transition-colors flex-shrink-0"
           style={isAccessible
             ? { background: "hsl(42,80%,42%)", color: "#fff", borderColor: "hsl(42,80%,42%)" }
             : { background: "transparent", color: "hsl(218,72%,28%)", borderColor: "hsl(218,72%,28%)" }
@@ -54,14 +54,20 @@ export default function Header() {
 
       {mobileOpen && (
         <div className="xl:hidden bg-white border-t border-border py-4 px-4">
+          <a
+            href="#enrollment"
+            className="flex items-center justify-center gap-2 py-3 rounded text-sm font-semibold text-white mb-4"
+            style={{ background: "hsl(218,72%,28%)" }}
+            onClick={() => setMobileOpen(false)}
+          >
+            <Icon name="PenLine" size={15} />
+            Записаться на курс
+          </a>
           {NAV_LINKS.map((l) => (
             <a key={l.href} href={l.href} className="block py-2.5 text-sm font-medium border-b border-border last:border-0" onClick={() => setMobileOpen(false)}>
               {l.label}
             </a>
           ))}
-          <a href="#enrollment" className="block mt-4 text-center py-2.5 rounded text-sm font-semibold text-white" style={{ background: "hsl(218,72%,28%)" }}>
-            Записаться на курс
-          </a>
         </div>
       )}
     </header>
