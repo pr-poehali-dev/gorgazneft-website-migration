@@ -3,7 +3,7 @@ import json
 import os
 import boto3
 
-DEFAULT_LABEL = "Прочие документы"
+DEFAULT_LABEL = "Все документы"
 
 
 def folder_label(key: str) -> str:
@@ -24,7 +24,6 @@ def handler(event: dict, context) -> dict:
     if event.get("httpMethod") == "OPTIONS":
         return {"statusCode": 200, "headers": cors, "body": ""}
 
-    # Режим debug — вернуть все ключи для диагностики
     params = event.get("queryStringParameters") or {}
     debug = params.get("debug") == "1"
 
@@ -37,38 +36,36 @@ def handler(event: dict, context) -> dict:
 
     access_key = os.environ["AWS_ACCESS_KEY_ID"]
 
-    # Пробуем несколько возможных имён бакета
-    candidate_buckets = ["files", "storage", "documents", "docs", access_key]
+    # Файлы загружены в папку "Документы-word" внутри бакета "bucket"
+    # CDN путь: cdn.poehali.dev/projects/{access_key}/bucket/...
+    candidate_buckets = ["bucket", "files", "storage", "documents"]
     all_keys = []
     files = []
-    bucket_found = None
+    bucket_used = None
+    errors = []
 
     for candidate in candidate_buckets:
         try:
             paginator = s3.get_paginator("list_objects_v2")
-            found_any = False
             tmp_keys = []
             for page in paginator.paginate(Bucket=candidate):
                 for obj in page.get("Contents", []):
-                    found_any = True
                     tmp_keys.append(obj["Key"])
-            if found_any or True:
-                bucket_found = candidate
-                all_keys = tmp_keys
-                bucket = candidate
-                break
+            bucket_used = candidate
+            all_keys = tmp_keys
+            break
         except Exception as e:
-            all_keys.append(f"bucket '{candidate}' error: {str(e)}")
+            errors.append(f"{candidate}: {str(e)[:80]}")
             continue
 
-    # Ищем .doc/.docx в найденных ключах
-    for key in (all_keys if bucket_found else []):
+    for key in all_keys:
         lower_key = key.lower()
         if not (lower_key.endswith(".docx") or lower_key.endswith(".doc")):
             continue
         name = key.split("/")[-1]
         if not name:
             continue
+        # CDN всегда через "bucket" в URL независимо от имени бакета
         url = f"https://cdn.poehali.dev/projects/{access_key}/bucket/{key}"
         files.append({
             "name": name,
@@ -82,7 +79,8 @@ def handler(event: dict, context) -> dict:
     result = {"files": files}
     if debug:
         result["all_keys"] = all_keys
-        result["bucket_found"] = bucket_found
+        result["bucket_used"] = bucket_used
+        result["errors"] = errors
         result["access_key_prefix"] = access_key[:8] + "..."
 
     return {
