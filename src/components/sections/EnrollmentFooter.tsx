@@ -123,10 +123,12 @@ export default function EnrollmentFooter() {
             <h2 className="font-golos text-3xl sm:text-4xl font-black mb-3" style={{ color: "hsl(218,72%,18%)" }}>Контакты</h2>
             <div className="section-divider mx-auto" />
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { icon: "MapPin", title: "Адрес", value: "Респ. Башкортостан, г. Сибай, ул. Куйбышева, д. 20, офис 32", sub: "Пн–Пт, 09:00–18:00" },
               { icon: "Phone", title: "Телефон", value: "+7 (905) 005-36-19", sub: "Звонки и MAX", href: "tel:+79050053619", maxHref: "https://max.ru/gorgazneft" },
+              { icon: "Phone", title: "Телефон", value: "+7 (960) 383-30-66", sub: "Звонки", href: "tel:+79603833066" },
+              { icon: "Phone", title: "Телефон", value: "+7 (960) 392-42-55", sub: "Звонки", href: "tel:+79603924255" },
               { icon: "Mail", title: "Email", value: "gorgazneft@mail.ru", sub: "Ответим в течение дня", href: "mailto:gorgazneft@mail.ru" },
               { icon: "Users", title: "ВКонтакте", value: "vk.com/gazneft2013", sub: "Новости и акции", href: "https://vk.com/gazneft2013" },
             ].map((c) => (
