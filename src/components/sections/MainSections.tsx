@@ -108,10 +108,9 @@ export default function MainSections() {
                 <div className="flex-shrink-0">
                   <div className="rounded-lg overflow-hidden bg-white p-2" style={{ width: 130, height: 130 }}>
                     <img
-                      src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/b3c7d3b1-bb11-474e-b295-025e40aad70e.png"
+                      src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/72c27b20-f126-4633-ac5e-1872acb88dc6.png"
                       alt="QR для оплаты"
                       className="w-full h-full object-contain"
-                      style={{ imageRendering: "pixelated" }}
                     />
                   </div>
                   <div className="text-white/40 text-xs text-center mt-2">Сканируй и оплачивай</div>
@@ -147,16 +146,14 @@ export default function MainSections() {
                 </div>
               </div>
               {/* Кнопка скачать квитанцию */}
-              <a
-                href="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/b3c7d3b1-bb11-474e-b295-025e40aad70e.png"
-                onClick={(e) => {
-                  e.preventDefault();
-                  fetch("https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/b3c7d3b1-bb11-474e-b295-025e40aad70e.png")
+              <button
+                onClick={() => {
+                  fetch("https://functions.poehali.dev/2f23b62a-53bf-429c-b05e-1b19433c6a91")
                     .then(r => r.blob())
                     .then(blob => {
                       const a = document.createElement("a");
                       a.href = URL.createObjectURL(blob);
-                      a.download = "Квитанция_УЦ_ГорГазНефть.png";
+                      a.download = "Квитанция_УЦ_ГорГазНефть.pdf";
                       a.click();
                       URL.revokeObjectURL(a.href);
                     });
@@ -165,8 +162,8 @@ export default function MainSections() {
                 style={{ background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }}
               >
                 <Icon name="Download" size={15} />
-                Скачать квитанцию
-              </a>
+                Скачать квитанцию (PDF)
+              </button>
             </div>
           </div>
         </div>
