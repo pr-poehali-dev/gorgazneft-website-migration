@@ -3,22 +3,6 @@ import json
 import os
 import boto3
 
-# Человекочитаемые названия папок
-FOLDER_LABELS = {
-    "obrazcy":     "Образцы документов",
-    "obrazets":    "Образцы документов",
-    "polojeniya":  "Положения",
-    "polozheniya": "Положения",
-    "pravila":     "Правила",
-    "dogovory":    "Договоры",
-    "dogovor":     "Договоры",
-    "zayavleniya": "Заявления",
-    "grafiki":     "Графики и планы",
-    "programmy":   "Программы",
-    "prays":       "Прайс",
-    "price":       "Прайс",
-}
-
 DEFAULT_LABEL = "Прочие документы"
 
 
@@ -26,16 +10,8 @@ def folder_label(key: str) -> str:
     parts = key.split("/")
     if len(parts) < 2:
         return DEFAULT_LABEL
-    folder = parts[-2].lower().strip()
-    # Точное совпадение
-    if folder in FOLDER_LABELS:
-        return FOLDER_LABELS[folder]
-    # Частичное совпадение
-    for k, v in FOLDER_LABELS.items():
-        if k in folder or folder in k:
-            return v
-    # Возвращаем исходное имя папки с заглавной буквы
-    return folder.capitalize() if folder else DEFAULT_LABEL
+    folder = parts[-2].strip()
+    return folder if folder else DEFAULT_LABEL
 
 
 def handler(event: dict, context) -> dict:
@@ -48,6 +24,10 @@ def handler(event: dict, context) -> dict:
     if event.get("httpMethod") == "OPTIONS":
         return {"statusCode": 200, "headers": cors, "body": ""}
 
+    # Режим debug — вернуть все ключи для диагностики
+    params = event.get("queryStringParameters") or {}
+    debug = params.get("debug") == "1"
+
     s3 = boto3.client(
         "s3",
         endpoint_url="https://bucket.poehali.dev",
@@ -55,33 +35,58 @@ def handler(event: dict, context) -> dict:
         aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"],
     )
 
-    bucket = "files"
     access_key = os.environ["AWS_ACCESS_KEY_ID"]
 
-    paginator = s3.get_paginator("list_objects_v2")
+    # Пробуем несколько возможных имён бакета
+    candidate_buckets = ["files", "storage", "documents", "docs", access_key]
+    all_keys = []
     files = []
+    bucket_found = None
 
-    for page in paginator.paginate(Bucket=bucket):
-        for obj in page.get("Contents", []):
-            key = obj["Key"]
-            lower_key = key.lower()
-            if not (lower_key.endswith(".docx") or lower_key.endswith(".doc")):
-                continue
-            name = key.split("/")[-1]
-            if not name:
-                continue
-            url = f"https://cdn.poehali.dev/projects/{access_key}/bucket/{key}"
-            files.append({
-                "name": name,
-                "url": url,
-                "size": obj.get("Size", 0),
-                "folder": folder_label(key),
-            })
+    for candidate in candidate_buckets:
+        try:
+            paginator = s3.get_paginator("list_objects_v2")
+            found_any = False
+            tmp_keys = []
+            for page in paginator.paginate(Bucket=candidate):
+                for obj in page.get("Contents", []):
+                    found_any = True
+                    tmp_keys.append(obj["Key"])
+            if found_any or True:
+                bucket_found = candidate
+                all_keys = tmp_keys
+                bucket = candidate
+                break
+        except Exception as e:
+            all_keys.append(f"bucket '{candidate}' error: {str(e)}")
+            continue
+
+    # Ищем .doc/.docx в найденных ключах
+    for key in (all_keys if bucket_found else []):
+        lower_key = key.lower()
+        if not (lower_key.endswith(".docx") or lower_key.endswith(".doc")):
+            continue
+        name = key.split("/")[-1]
+        if not name:
+            continue
+        url = f"https://cdn.poehali.dev/projects/{access_key}/bucket/{key}"
+        files.append({
+            "name": name,
+            "url": url,
+            "size": 0,
+            "folder": folder_label(key),
+        })
 
     files.sort(key=lambda f: (f["folder"].lower(), f["name"].lower()))
+
+    result = {"files": files}
+    if debug:
+        result["all_keys"] = all_keys
+        result["bucket_found"] = bucket_found
+        result["access_key_prefix"] = access_key[:8] + "..."
 
     return {
         "statusCode": 200,
         "headers": cors,
-        "body": json.dumps({"files": files}, ensure_ascii=False),
+        "body": json.dumps(result, ensure_ascii=False),
     }
