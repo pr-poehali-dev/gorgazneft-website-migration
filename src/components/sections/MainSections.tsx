@@ -265,32 +265,30 @@ export default function MainSections() {
 
           {/* Cards */}
           {pagedCourses.length > 0 ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {pagedCourses.map((c) => (
-                <div key={c.id} className="border border-border rounded-xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-0.5 group flex flex-col">
-                  <div className="p-5 border-b border-border flex items-start justify-between gap-3" style={{ background: "hsl(218,72%,18%)" }}>
+                <div key={c.id} className="border border-border rounded-lg overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 group flex flex-col">
+                  <div className="px-4 py-3 flex items-start justify-between gap-2" style={{ background: "hsl(218,72%,18%)" }}>
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-medium mb-1.5 text-white/60">{c.category}</div>
+                      <div className="text-xs font-medium mb-1 text-white/50">{c.category}</div>
                       <h3 className="font-golos font-bold text-white text-sm leading-snug">{c.title}</h3>
                     </div>
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(255,255,255,0.12)" }}>
-                      <Icon name={c.icon} size={16} className="text-white" fallback="BookOpen" />
+                    <div className="flex-shrink-0 w-7 h-7 rounded flex items-center justify-center mt-0.5" style={{ background: "rgba(255,255,255,0.12)" }}>
+                      <Icon name={c.icon} size={14} className="text-white" fallback="BookOpen" />
                     </div>
                   </div>
-                  <div className="p-5 bg-white flex-1 flex flex-col justify-between">
-                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-4">
-                      <Icon name="Clock" size={12} />
+                  <div className="px-4 py-2.5 bg-white flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Icon name="Clock" size={11} />
                       <span>{c.hours}</span>
                     </div>
-                    <div className="flex items-center justify-end">
-                      <a
-                        href="#enrollment"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded transition-opacity hover:opacity-80"
-                        style={{ background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }}
-                      >
-                        Записаться
-                      </a>
-                    </div>
+                    <a
+                      href="#enrollment"
+                      className="inline-flex items-center text-xs font-semibold px-3 py-1.5 rounded transition-opacity hover:opacity-80"
+                      style={{ background: "hsl(42,90%,52%)", color: "hsl(218,72%,10%)" }}
+                    >
+                      Записаться
+                    </a>
                   </div>
                 </div>
               ))}
