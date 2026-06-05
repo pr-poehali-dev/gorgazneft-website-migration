@@ -493,7 +493,7 @@ export default function MainSections() {
                       <a
                         key={f.url}
                         href={f.url}
-                        download
+                        download={`${f.name}.docx`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors group border-b border-white/5 last:border-0"
