@@ -494,7 +494,8 @@ export default function MainSections() {
                         key={f.url}
                         className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors group border-b border-white/5 last:border-0 cursor-pointer"
                         onClick={() => {
-                          fetch(f.url)
+                          const proxyUrl = `https://functions.poehali.dev/548aba03-2077-4e1e-8440-b9b454902559?url=${encodeURIComponent(f.url)}&filename=${encodeURIComponent(f.name + ".docx")}`;
+                          fetch(proxyUrl)
                             .then((r) => r.blob())
                             .then((blob) => {
                               const a = document.createElement("a");
