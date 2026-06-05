@@ -1,3 +1,30 @@
+export type WordDoc = { name: string; url: string; folder: string };
+
+export const WORD_DOCS: WordDoc[] = [
+  { name: "ПОЛОЖЕНИЕ О ПОРЯДКЕ ТЕКУЩЕГО КОНТРОЛЯ УСПЕВАЕМОСТИ, ПРОМЕЖУТОЧНОЙ И ИТОГОВОЙ АТТЕСТАЦИИ ОБУЧАЮЩИХСЯ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/dc9a9239-4bea-4287-8673-9793a03a7649.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О КОМИССИИ ПО УРЕГУЛИРОВАНИЮ СПОРОВ МЕЖДУ УЧАСТНИКАМИ ОБРАЗОВАТЕЛЬНЫХ ОТНОШЕНИЙ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/d2fc2594-4a53-4849-9f94-02620548404a.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ПЕДАГОГИЧЕСКОМ СОВЕТЕ УЦГТН", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/82c65771-2927-4137-9a58-ceee7b34e245.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ПОРЯДКЕ ЗАПОЛНЕНИЯ, УЧЕТА, ХРАНЕНИЯ РЕЗУЛЬТАТОВ ОБУЧЕНИЯ ПО ОХРАНЕ ТРУДА И ПРОВЕРКИ ЗНАНИЙ ТРЕБОВАНИЙ ОХРАНЫ ТРУДА И ВЫДАЧИ УДОСТОВЕРЕНИЙ О ПОВЫШЕНИИ КВАЛИФИКАЦИИ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/077e2b79-b340-4a86-b1c7-a3d18875a6ff.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ПОРЯДКЕ ОРГАНИЗАЦИИ И ОСУЩЕСТВЛЕНИЯ ОБРАЗОВАТЕЛЬНОЙ ДЕЯТЕЛЬНОСТИ ПО ДОПОЛНИТЕЛЬНЫМ ПРОФЕССИОНАЛЬНЫМ ПРОГРАММАМ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/951b5520-bd83-444a-ad62-027d4ae725b3.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ПОРЯДКЕ ОРГАНИЗАЦИИ И ОСУЩЕСТВЛЕНИЯ ОБРАЗОВАТЕЛЬНОЙ ДЕЯТЕЛЬНОСТИ ПО ПРОГРАММАМ ПРОФЕССИОНАЛЬНОГО ОБУЧЕНИЯ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/d71dbf34-bcb1-456e-8394-1cc924fd3a0b.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ПОРЯДКЕ ПОЛЬЗОВАНИЯ УЧЕБНЫМИ МАТЕРИАЛАМИ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/8c805b1a-ab04-41b7-9ac2-292c7dccbd2c.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ПРАКТИКЕ ОБУЧАЮЩИХСЯ, ОСВАИВАЮЩИХ ДОПОЛНИТЕЛЬНЫЕ ПРОФЕССИОНАЛЬНЫЕ ПРОГРАММЫ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/8fa6382e-5f49-4929-9473-b822c4bf81b7.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ПРОФЕССИОНАЛЬНОЙ ПОДГОТОВКЕ И ПОВЫШЕНИИ КВАЛИФИКАЦИИ ПЕДАГОГИЧЕСКИХ РАБОТНИКОВ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/80fdaf89-cc3d-49ca-9fd6-dfcfcfa99090.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О РЕЖИМЕ ЗАНЯТИЙ ОБУЧАЮЩИХСЯ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/64da256d-d938-495a-aa68-2aa856f0bdd7.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О СОВЕТЕ ОБУЧАЮЩИХСЯ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/1640694e-01ce-4629-b2a5-82d0377d6511.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О СОЗДАНИИ НЕОБХОДИМЫХ УСЛОВИЙ ДЛЯ ОХРАНЫ И УКРЕПЛЕНИЯ ЗДОРОВЬЯ, ОРГАНИЗАЦИИ ПИТАНИЯ ОБУЧАЮЩИХСЯ И РАБОТНИКОВ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/efaf75fc-65b6-4214-99c0-0322de01198a.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ЯЗЫКЕ ОБРАЗОВАНИЯ (ОБУЧЕНИЯ)", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/c8691c6a-59f9-4794-8c4c-ee7a0701658a.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ ОБ ИСПОЛЬЗОВАНИИ ЭЛЕКТРОННОГО ОБУЧЕНИЯ, ДИСТАНЦИОННЫХ ОБРАЗОВАТЕЛЬНЫХ ТЕХНОЛОГИЙ ПРИ РЕАЛИЗАЦИИ ДОПОЛНИТЕЛЬНЫХ ОБРАЗОВАТЕЛЬНЫХ ПРОГРАММ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/cc0176f4-745e-489d-8045-933b58f11af5.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ ОБ ОБРАБОТКЕ И ЗАЩИТЕ ПЕРСОНАЛЬНЫХ ДАННЫХ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/8047e5b2-86ef-42b4-9577-e57bb6be65ce.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ ОБ ОБУЧЕНИИ ПО ИНДИВИДУАЛЬНОМУ УЧЕБНОМУ ПЛАНУ ПО ДОПОЛНИТЕЛЬНЫМ ПРОФЕССИОНАЛЬНЫМ ПРОГРАММАМ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/b2ba92a0-47a4-44d6-8e2b-9e53ffd577fd.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ ОБ ОБЩЕМ СОБРАНИИ РАБОТНИКОВ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/03b088ba-21f3-442b-b0e8-88bd3725c2ca.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ ОБ ОКАЗАНИИ ПЛАТНЫХ ОБРАЗОВАТЕЛЬНЫХ УСЛУГ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/d72391b8-079b-4438-8e4d-0a322296675e.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ ОБ ОРГАНИЗАЦИИ ОБУЧЕНИЯ ЛИЦ С ОГРАНИЧЕННЫМИ ВОЗМОЖНОСТЯМИ ЗДОРОВЬЯ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/6f9ea07f-29d4-41ff-b84a-54acc3131127.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ ОБ ОЦЕНКЕ КАЧЕСТВА ОСВОЕНИЯ ДОПОЛНИТЕЛЬНЫХ ПРОФЕССИОНАЛЬНЫХ ПРОГРАММ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/f1f6c8c7-74c1-4bb6-b096-ae4881299f3e.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ ОБ УЧЕБНО - МЕТОДИЧЕСКОМ СОВЕТЕ УЦГТН", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/f127bbaf-1887-4515-b7c6-245840d80f8d.docx", folder: "Положения" },
+  { name: "ПОЛОЖЕНИЕ О ПОРЯДКЕ ОФОРМЛЕНИЯ ВОЗНИКНОВЕНИЯ, ПРИОСТАНОВЛЕНИЯ И ПРЕКРАЩЕНИЯ ОТНОШЕНИЙ МЕЖДУ ОБРАЗОВАТЕЛЬНОЙ ОРГАНИЗАЦИЕЙ И ОБУЧАЮЩИМИСЯ И (ИЛИ) РОДИТЕЛЯМИ (ЗАКОННЫМИ ПРЕДСТАВИТЕЛЯМИ) НЕСОВЕРШЕННОЛЕТНИХ ОБУЧАЮЩИХСЯ", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/fa666a27-4189-4ae7-beff-5972e24ca11f.docx", folder: "Положения" },
+];
+
 export const NAV_LINKS = [
   { label: "Главная", href: "#hero" },
   { label: "О центре", href: "#about" },

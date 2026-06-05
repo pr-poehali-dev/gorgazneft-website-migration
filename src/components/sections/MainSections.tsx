@@ -1,34 +1,21 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Icon from "@/components/ui/icon";
-import { COURSES, COURSE_CATEGORIES, PROGRAMS, SCHEDULE, DOCUMENTS, REVIEWS } from "./data";
+import { COURSES, COURSE_CATEGORIES, PROGRAMS, SCHEDULE, DOCUMENTS, REVIEWS, WORD_DOCS } from "./data";
 import ProfessionsSection from "./ProfessionsSection";
 
-const LIST_FILES_URL = "https://functions.poehali.dev/840a506b-97b2-4b51-9165-b9b2fd02c787";
-
-type DocFile = { name: string; url: string; size: number; folder: string };
+type DocFile = { name: string; url: string; folder: string };
 
 const COURSES_PER_PAGE = 12;
 
 export default function MainSections() {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [docsOpen, setDocsOpen] = useState(false);
-  const [docFiles, setDocFiles] = useState<DocFile[]>([]);
+  const docFiles: DocFile[] = WORD_DOCS;
   const [docSearch, setDocSearch] = useState("");
   const [docFolder, setDocFolder] = useState("Все");
-  const [docsLoading, setDocsLoading] = useState(false);
   const [courseSearch, setCourseSearch] = useState("");
   const [courseCategory, setCourseCategory] = useState("Все");
   const [coursePage, setCoursePage] = useState(1);
-
-  useEffect(() => {
-    if (!docsOpen || docFiles.length > 0) return;
-    setDocsLoading(true);
-    fetch(LIST_FILES_URL)
-      .then((r) => r.json())
-      .then((data) => setDocFiles(data.files || []))
-      .catch(() => setDocFiles([]))
-      .finally(() => setDocsLoading(false));
-  }, [docsOpen, docFiles.length]);
 
   const docFolders = useMemo(() => {
     const set = new Set(docFiles.map((f) => f.folder));
@@ -471,7 +458,7 @@ export default function MainSections() {
                 </div>
 
                 {/* Вкладки папок */}
-                {!docsLoading && docFolders.length > 2 && (
+                {docFolders.length > 2 && (
                   <div className="flex flex-wrap gap-1.5 px-4 py-3 border-b border-white/10">
                     {docFolders.map((folder) => {
                       const count = folder === "Все" ? docFiles.length : docFiles.filter((f) => f.folder === folder).length;
@@ -497,14 +484,9 @@ export default function MainSections() {
 
                 {/* Список файлов */}
                 <div className="max-h-96 overflow-y-auto">
-                  {docsLoading ? (
-                    <div className="flex items-center justify-center gap-2 py-10 text-white/50 text-sm">
-                      <Icon name="Loader" size={16} className="animate-spin" />
-                      Загружаем список...
-                    </div>
-                  ) : filteredDocFiles.length === 0 ? (
+                  {filteredDocFiles.length === 0 ? (
                     <div className="text-center py-10 text-white/40 text-sm">
-                      {docFiles.length === 0 ? "Файлы не найдены" : "Ничего не найдено"}
+                      Ничего не найдено
                     </div>
                   ) : (
                     filteredDocFiles.map((f) => (
@@ -533,7 +515,7 @@ export default function MainSections() {
                   )}
                 </div>
 
-                {!docsLoading && filteredDocFiles.length > 0 && (
+                {filteredDocFiles.length > 0 && (
                   <div className="px-5 py-3 border-t border-white/10 text-white/30 text-xs">
                     {filteredDocFiles.length} {filteredDocFiles.length === 1 ? "документ" : filteredDocFiles.length < 5 ? "документа" : "документов"}
                     {docFolder !== "Все" && ` · ${docFolder}`}
