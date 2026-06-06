@@ -310,9 +310,7 @@ export default function ProfessionsSection() {
                       <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                         <Icon name="Monitor" size={12} />{c.format}
                       </span>
-                      <span className="font-golos font-black text-sm ml-auto" style={{ color: "hsl(218,72%,28%)" }}>
-                        {c.price}
-                      </span>
+
                     </div>
                   </div>
                 ))}
