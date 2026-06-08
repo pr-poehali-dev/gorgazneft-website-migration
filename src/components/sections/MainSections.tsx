@@ -108,7 +108,7 @@ export default function MainSections() {
                 <div className="flex sm:flex-col items-center gap-4 sm:gap-0 w-full sm:w-auto">
                   <div className="rounded-lg overflow-hidden bg-white p-2 flex-shrink-0" style={{ width: 110, height: 110 }}>
                     <img
-                      src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/72c27b20-f126-4633-ac5e-1872acb88dc6.png"
+                      src="https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/3510ef76-7399-4b40-a4f4-f4ee59540045.png"
                       alt="QR для оплаты"
                       className="w-full h-full object-contain"
                     />
