@@ -17,6 +17,8 @@ def handler(event: dict, context) -> dict:
         return {"statusCode": 200, "headers": cors, "body": ""}
 
     from fpdf import FPDF
+    import qrcode
+    from PIL import Image as PILImage
 
     # Скачиваем шрифты Roboto с поддержкой кириллицы
     font_url = "https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Regular.ttf"
@@ -32,11 +34,32 @@ def handler(event: dict, context) -> dict:
         font_bold_tmp.write(resp.read())
     font_bold_tmp.close()
 
-    # Скачиваем QR-код
-    qr_url = "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/72c27b20-f126-4633-ac5e-1872acb88dc6.png"
+    # Генерируем QR-код по стандарту ЦБ РФ (ST00012)
+    # Формат: ST00012|Name=...|PersonalAcc=...|BankName=...|BIC=...|CorrespAcc=...|PayeeINN=...|KPP=...|Purpose=...
+    qr_data = (
+        "ST00012|"
+        "Name=АНО ДПО Учебный центр ГорГазНефть|"
+        "PersonalAcc=40703810880690000003|"
+        "BankName=АО АЛЬФА-БАНК|"
+        "BIC=044525593|"
+        "CorrespAcc=30101810200000000593|"
+        "PayeeINN=0268104892|"
+        "KPP=026801001|"
+        "Purpose=Оплата за обучение"
+    )
+
+    qr = qrcode.QRCode(
+        version=None,
+        error_correction=qrcode.constants.ERROR_CORRECT_M,
+        box_size=10,
+        border=2,
+    )
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    qr_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
     qr_tmp = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-    with urllib.request.urlopen(qr_url) as resp:
-        qr_tmp.write(resp.read())
+    qr_img.save(qr_tmp.name, format="PNG", dpi=(300, 300))
     qr_tmp.close()
 
     pdf = FPDF(orientation="L", unit="mm", format="A5")
@@ -172,8 +195,13 @@ def handler(event: dict, context) -> dict:
     pdf.set_xy(rx, 12)
     pdf.cell(W - rx - 5, 6, "Оплатить можно QR-кодом")
 
-    qr_size = 60
-    qr_y = H - qr_size - 14
+    small(7)
+    pdf.set_text_color(120, 120, 120)
+    pdf.set_xy(rx, 20)
+    pdf.cell(W - rx - 5, 4, "Стандарт ЦБ РФ · совместим с любым банком")
+
+    qr_size = 62
+    qr_y = H - qr_size - 12
     pdf.image(qr_tmp.name, x=rx + 2, y=qr_y, w=qr_size, h=qr_size)
 
     small(7)
