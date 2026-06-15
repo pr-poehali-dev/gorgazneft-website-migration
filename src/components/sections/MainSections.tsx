@@ -497,7 +497,7 @@ export default function MainSections() {
                     const url = "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/c8fd4791-5a97-4bcf-ad99-a996aaf7065a.docx";
                     const a = document.createElement("a");
                     a.href = url;
-                    a.download = "АНО_ДПО_УЦГТН-прайс_2026г.docx";
+                    a.download = "АНО_ДПО_УЦГГН-прайс_2026г.docx";
                     a.target = "_blank";
                     a.click();
                   }}
@@ -507,7 +507,7 @@ export default function MainSections() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <span className="block text-sm text-white/80 group-hover:text-white transition-colors leading-snug">
-                      АНО_ДПО_УЦГТН-прайс_2026г
+                      АНО_ДПО_УЦГГН-прайс_2026г
                     </span>
                   </div>
                   <Icon name="Download" size={14} className="flex-shrink-0 text-white/30 group-hover:text-white/70 transition-colors" />
