@@ -9,6 +9,7 @@ const COURSES_PER_PAGE = 12;
 
 export default function MainSections() {
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [priceOpen, setPriceOpen] = useState(false);
   const [docsOpen, setDocsOpen] = useState(false);
   const docFiles: DocFile[] = WORD_DOCS;
   const [docSearch, setDocSearch] = useState("");
@@ -464,8 +465,59 @@ export default function MainSections() {
             ))}
           </div>
 
-          {/* Нормативные документы Word */}
+          {/* Прайс */}
           <div className="mt-10">
+            <button
+              onClick={() => setPriceOpen((v) => !v)}
+              className="w-full flex items-center justify-between px-6 py-4 rounded-xl border border-white/20 hover:border-white/40 transition-colors group"
+              style={{ background: "hsl(218,65%,24%)" }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "hsl(42,90%,52%)" }}>
+                  <Icon name="BadgeRussianRuble" size={18} style={{ color: "hsl(218,72%,10%)" }} />
+                </div>
+                <div className="text-left">
+                  <div className="font-golos font-bold text-white text-sm">Прайс</div>
+                  <div className="text-white/50 text-xs mt-0.5">Стоимость обучения по всем программам на 2026 год</div>
+                </div>
+              </div>
+              <Icon
+                name="ChevronDown"
+                size={18}
+                className="text-white/50 flex-shrink-0 transition-transform"
+                style={{ transform: priceOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+              />
+            </button>
+
+            {priceOpen && (
+              <div className="mt-3 rounded-xl border border-white/15 overflow-hidden" style={{ background: "hsl(218,65%,22%)" }}>
+                <div
+                  className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors group cursor-pointer"
+                  onClick={() => {
+                    const url = "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/c8fd4791-5a97-4bcf-ad99-a996aaf7065a.docx";
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "АНО_ДПО_УЦГТН-прайс_2026г.docx";
+                    a.target = "_blank";
+                    a.click();
+                  }}
+                >
+                  <div className="flex-shrink-0 w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255,255,255,0.08)" }}>
+                    <Icon name="FileText" size={14} className="text-white/60" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className="block text-sm text-white/80 group-hover:text-white transition-colors leading-snug">
+                      АНО_ДПО_УЦГТН-прайс_2026г
+                    </span>
+                  </div>
+                  <Icon name="Download" size={14} className="flex-shrink-0 text-white/30 group-hover:text-white/70 transition-colors" />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Нормативные документы Word */}
+          <div className="mt-4">
             <button
               onClick={() => setDocsOpen((v) => !v)}
               className="w-full flex items-center justify-between px-6 py-4 rounded-xl border border-white/20 hover:border-white/40 transition-colors group"
