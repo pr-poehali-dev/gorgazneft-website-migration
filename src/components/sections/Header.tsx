@@ -24,9 +24,20 @@ export default function Header() {
 
         <nav className="hidden xl:flex items-center gap-5">
           {NAV_LINKS.map((l) => (
-            <a key={l.href} href={l.href} className="text-xs font-medium uppercase tracking-wide text-foreground/70 hover:text-foreground transition-colors">
-              {l.label}
-            </a>
+            l.label === "Разработка" ? (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded transition-colors"
+                style={{ background: "hsl(42,80%,42%)", color: "hsl(218,72%,10%)" }}
+              >
+                {l.label}
+              </a>
+            ) : (
+              <a key={l.href} href={l.href} className="text-xs font-medium uppercase tracking-wide text-foreground/70 hover:text-foreground transition-colors">
+                {l.label}
+              </a>
+            )
           ))}
         </nav>
 
@@ -64,7 +75,13 @@ export default function Header() {
             Записаться на курс
           </a>
           {NAV_LINKS.map((l) => (
-            <a key={l.href} href={l.href} className="block py-2.5 text-sm font-medium border-b border-border last:border-0" onClick={() => setMobileOpen(false)}>
+            <a
+              key={l.href}
+              href={l.href}
+              className={`block py-2.5 text-sm font-medium border-b border-border last:border-0${l.label === "Разработка" ? " font-bold" : ""}`}
+              style={l.label === "Разработка" ? { color: "hsl(42,80%,42%)" } : {}}
+              onClick={() => setMobileOpen(false)}
+            >
               {l.label}
             </a>
           ))}

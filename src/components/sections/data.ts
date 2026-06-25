@@ -36,6 +36,7 @@ export const NAV_LINKS = [
   { label: "Отзывы", href: "#reviews" },
   { label: "FAQ", href: "#faq" },
   { label: "Контакты", href: "#contacts" },
+  { label: "Разработка", href: "/dev", external: true },
 ];
 
 export type Course = {
