@@ -9,12 +9,18 @@ interface Course {
   type: string;
 }
 
+interface Doc {
+  name: string;
+  url: string;
+}
+
 interface Profession {
   title: string;
   image: string;
   icon: string;
   color: string;
   courses: Course[];
+  documents?: Doc[];
 }
 
 const PROFESSIONS: Profession[] = [
@@ -152,6 +158,11 @@ const PROFESSIONS: Profession[] = [
       { title: "Подготовка членов вспомогательной горноспасательной команды", hours: "40 ч", format: "Очно", price: "от 9 000 ₽", type: "Повышение квалификации" },
       { title: "Командир ВГСК", hours: "72 ч", format: "Очно", price: "от 14 000 ₽", type: "Повышение квалификации" },
       { title: "Ликвидация аварий на горнодобывающих предприятиях", hours: "40 ч", format: "Очно / Онлайн", price: "от 8 500 ₽", type: "Повышение квалификации" },
+    ],
+    documents: [
+      { name: "ВГК.docx", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/f73c9b4b-6af1-4b92-94de-17968bd8f20c.docx" },
+      { name: "Подготовка спасателей вспомогательных горноспасательных команд.docx", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/436e7950-576d-476e-afce-55f033a9c34c.docx" },
+      { name: "Единая книжка взрывника.docx", url: "https://cdn.poehali.dev/projects/79adcded-2855-4e4c-963b-c613b304c772/bucket/b5c8bc89-a656-4576-a258-735c505e7bae.docx" },
     ],
   },
 ];
@@ -315,6 +326,31 @@ export default function ProfessionsSection() {
                   </div>
                 ))}
               </div>
+
+              {selected.documents && selected.documents.length > 0 && (
+                <div className="mt-6">
+                  <div className="font-golos font-bold text-base mb-3" style={{ color: "hsl(218,72%,18%)" }}>
+                    Документы
+                  </div>
+                  <div className="space-y-2">
+                    {selected.documents.map((d) => (
+                      <a
+                        key={d.url}
+                        href={d.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 border border-border rounded-xl p-3 hover:bg-muted/50 transition-colors"
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "hsl(214,32%,94%)" }}>
+                          <Icon name="FileText" size={16} style={{ color: "hsl(218,72%,28%)" }} />
+                        </div>
+                        <span className="text-sm flex-1" style={{ color: "hsl(218,72%,15%)" }}>{d.name}</span>
+                        <Icon name="Download" size={14} className="text-muted-foreground flex-shrink-0" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <a
